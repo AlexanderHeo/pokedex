@@ -22,7 +22,7 @@ class App extends Component {
         <div className="App">
           <Header changePage={this.changePage}/>
             <Switch>
-              <Route exact path="/" render={props => <PokemonPage {...props} arrow={this.state.arrow} />} />
+            <Route exact path="/" render={props => <PokemonPage {...props} arrow={this.state.arrow} changePage={this.changePage} />} />
               <Route path="/:id" component={PokemonDetail} />
             </Switch>
         </div>

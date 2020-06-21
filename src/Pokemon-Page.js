@@ -7,7 +7,7 @@ class PokemonPage extends Component {
     totalCount: '',
     previousURL: '',
     nextURL: '',
-    currentURL: 'https://pokeapi.co/api/v2/evolution-chain?limit=20&offset=20/',
+    currentURL: 'https://pokeapi.co/api/v2/evolution-chain?limit=32&offset=0/',
     pokemonEvolutions: []
   }
 
@@ -25,7 +25,39 @@ class PokemonPage extends Component {
         previousURL: previousURL,
         nextURL: nextURL,
         pokemonEvolutions: pokemons.results
-      })
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async UNSAFE_componentWillReceiveProps(props) {
+    try {
+      console.log(props);
+      if (props.arrow === 'previous') {
+        this.setState({
+          currentURL: this.state.previousURL
+        });
+        props.changePage('');
+      } else if (props.arrow === 'next') {
+        this.setState({
+          currentURL: this.state.nextURL
+        });
+        props.changePage('');
+      }
+      const res = await fetch(this.state.currentURL);
+      const pokemons = await res.json();
+        console.log(pokemons)
+      const total = pokemons.count;
+      const previousURL = pokemons.previous;
+      const nextURL = pokemons.next;
+
+      this.setState({
+        totalCount: total,
+        previousURL: previousURL,
+        nextURL: nextURL,
+        pokemonEvolutions: pokemons.results
+      });
     } catch (e) {
       console.log(e);
     }
