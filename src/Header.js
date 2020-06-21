@@ -9,7 +9,6 @@ import arrowRed from './pokemonArrowRed.png';
 class Header extends Component {
 
   render() {
-    console.log('props:', this.props)
     return(
       <AppHeader>
         <button type="button" className="previous" value="previous" onClick={event => this.props.changePage(event.currentTarget.value)}>
@@ -36,6 +35,7 @@ const AppHeader = styled.div`
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  background-color: #282c34;
 
   a {
     width: 100%;

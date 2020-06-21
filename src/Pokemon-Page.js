@@ -19,15 +19,19 @@ class PokemonPage extends Component {
       const total = pokemons.count;
       const previousURL = pokemons.previous;
       const nextURL = pokemons.next;
-      console.log(nextURL);
-      console.log(pokemons);
+
+      this.setState({
+        totalCount: total,
+        previousURL: previousURL,
+        nextURL: nextURL,
+        pokemonEvolutions: pokemons.results
+      })
     } catch (e) {
       console.log(e);
     }
   }
 
   render() {
-    console.log(this.props.arrow)
     const { pokemonEvolutions } = this.state;
     return (
       <PokeContainer>

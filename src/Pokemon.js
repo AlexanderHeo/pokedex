@@ -10,7 +10,13 @@ class Pokemon extends Component {
   async componentDidMount() {
     try {
       const res = await fetch(`${this.props.pokemon.url}`);
-      const pokemon = await res.json();
+      const pokeUrls = await res.json();
+      const pokeEvolution = pokeUrls.chain.species.url;
+      const resPokeSpecies = await fetch(`${pokeEvolution}`);
+      const pokeSpecies = await resPokeSpecies.json();
+      const resPokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokeSpecies.id}`)
+      const pokemon = await resPokemon.json();
+
       const pokename = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
       this.setState({
         pokemon: {
