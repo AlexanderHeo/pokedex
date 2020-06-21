@@ -37,7 +37,7 @@ class Pokemon extends Component {
 }
 
 const PokeGrid = styled.div`
-  width: 20%;
+  width: 77px;
   margin: 7px;
   height: 110px;
   display: inline-flex;
@@ -56,6 +56,10 @@ const PokeGrid = styled.div`
   }
   &:hover img {
     transform: scale(1.35);
+  }
+  @media (min-width: 376px) {
+    width: 145px;
+    height: 200px;
   }
 `;
 

@@ -4,26 +4,34 @@ import Pokemon from './Pokemon';
 
 class PokemonPage extends Component {
   state = {
-    pokemons: []
+    totalCount: '',
+    previousURL: '',
+    nextURL: '',
+    currentURL: 'https://pokeapi.co/api/v2/evolution-chain?limit=20&offset=20/',
+    pokemonEvolutions: []
   }
 
   async componentDidMount() {
     try {
-      const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=80&offset=0/');
+      const res = await fetch(this.state.currentURL);
       const pokemons = await res.json();
-      this.setState({
-        pokemons: pokemons.results
-      })
+
+      const total = pokemons.count;
+      const previousURL = pokemons.previous;
+      const nextURL = pokemons.next;
+      console.log(nextURL);
+      console.log(pokemons);
     } catch (e) {
       console.log(e);
     }
   }
 
   render() {
-    const { pokemons } = this.state;
+    console.log(this.props.arrow)
+    const { pokemonEvolutions } = this.state;
     return (
       <PokeContainer>
-        {pokemons.map(pokemon => <Pokemon key={pokemon.url} pokemon={pokemon} />)}
+        {pokemonEvolutions.map(pokemon => <Pokemon key={pokemon.url} pokemon={pokemon} />)}
       </PokeContainer>
     );
   }
@@ -42,5 +50,8 @@ const PokeContainer = styled.div`
     font-weight: 700;
     color: black;
     margin-block-start: 2px;
+  }
+  @media (min-width: 376px) {
+    width: 100vw;
   }
 `;
