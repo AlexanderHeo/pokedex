@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import logo from './logo.jpg';
 import arrowBlue from './pokemonArrowBlue.png';
 import arrowRed from './pokemonArrowRed.png';
+import logo from './PokemonLogoWhiteBackground.jpg';
 
 
 class Header extends Component {
@@ -27,63 +27,55 @@ class Header extends Component {
 
 const AppHeader = styled.div`
   width: 375px;
-  height: 100px;
   position: sticky;
   top: -1px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  background-color: #282c34;
+  background-color: #fff;
+  z-index: 4;
 
-  a {
-    width: 100%;
-    height: 100%;
-    text-align: center;
-  }
   .previous,
   .next {
-    width: 55px;
-    height: 25px;
-    margin: 0 10px;
+    width: 20vw;
+    max-width: 200px;
+    height: calc(25vw / 3);
+    max-height: 83.5px;
+    border: none;
+    background-color: #fff;
   }
   .previous {
     color: blue;
     transform: rotateY(180deg);
+    margin-right: 10px;
+  }
+  .next {
+    margin-left: 10px;
   }
   .arrow {
     width: 100%;
     height: 100%;
   }
+
   .App-logo {
-    width: 100%;
-    height: 100%;
-  }
-  .App-link {
-    color: #61dafb;
+    width: 50vw;
+    min-width: 180px;
+    max-width: 450px;
   }
 
   @media (min-width: 376px) {
     {
       width: 100vw;
-      height: 125px;
-    }
-    a {
-      height: 125px;
     }
   }
-  @media (min-width: 600px) {
-    {
-      width: 100vw;
-      height: 145px;
+  @media (min-width: 768px) {
+    .previous {
+      margin-left: 30px;
     }
-    a {
-      width: 500px;
-      height: 145px;
+    .next {
+      margin-right: 30px;
     }
   }
-
 `;
 
 export default Header;

@@ -7,7 +7,7 @@ class PokemonPage extends Component {
     totalCount: '',
     previousURL: '',
     nextURL: '',
-    currentURL: 'https://pokeapi.co/api/v2/evolution-chain?limit=32&offset=0/',
+    currentURL: 'https://pokeapi.co/api/v2/evolution-chain?limit=36&offset=0/',
     pokemonEvolutions: []
   }
 
@@ -78,16 +78,10 @@ export default PokemonPage;
 const PokeContainer = styled.div`
   width: 375px;
   text-align: center;
-  background-color: #282c34;
   font-family: "Fira Code", monospace;
-  a {
-    text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: black;
-    margin-block-start: 2px;
-  }
+
   @media (min-width: 376px) {
     width: 100vw;
+    max-width: 1200px;
   }
 `;

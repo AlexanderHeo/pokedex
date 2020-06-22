@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Header from './Header';
-import PokemonDetail from './Pokemon-Detail';
+import PokemonChainDetail from './Pokemon-Chain-Detail';
 import PokemonPage from './Pokemon-Page';
 
 class App extends Component {
@@ -23,7 +23,7 @@ class App extends Component {
           <Header changePage={this.changePage}/>
             <Switch>
               <Route exact path="/" render={props => <PokemonPage {...props} arrow={this.state.arrow} changePage={this.changePage} />} />
-              <Route path="/:id" component={PokemonDetail} />
+              <Route path="/:id" render={props => <PokemonChainDetail {...props} />} />
             </Switch>
         </div>
       </Router>
