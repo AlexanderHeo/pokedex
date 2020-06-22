@@ -9,12 +9,24 @@ class Pokemon extends Component {
 
   async componentDidMount() {
     try {
+      // console.log(this.props.pokemon)
+      // https://pokeapi.co/api/v2/evolution-chain/ID/
       const res = await fetch(`${this.props.pokemon.url}`);
-      const pokeUrls = await res.json();
-      const pokeEvolution = pokeUrls.chain.species.url;
-      const resPokeSpecies = await fetch(`${pokeEvolution}`);
-      const pokeSpecies = await resPokeSpecies.json();
-      const resPokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokeSpecies.id}`)
+      const pokeEvolution = await res.json();
+      // console.log(pokeEvolution);
+
+      let pokeSpecies = '';
+      if (!pokeEvolution.chain.is_baby) {
+        console.log(pokeEvolution.id, 'is not baby')
+        pokeSpecies = pokeEvolution.chain.species.url;
+      } else if (pokeEvolution.chain.is_baby) {
+        console.log(pokeEvolution.id, 'is baby')
+        pokeSpecies = pokeEvolution.chain.evolves_to[0].species.url;
+      }
+
+      const resPokeSpecies = await fetch(`${pokeSpecies}`);
+      const pokeSpecs = await resPokeSpecies.json();
+      const resPokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokeSpecs.id}`)
       const pokemon = await resPokemon.json();
 
       const pokename = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);

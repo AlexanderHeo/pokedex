@@ -79,7 +79,7 @@ const AppHeader = styled.div`
       height: 145px;
     }
     a {
-      width: 585px;
+      width: 500px;
       height: 145px;
     }
   }
