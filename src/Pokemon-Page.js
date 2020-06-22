@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Pokemon from './Pokemon';
+import PokemonLow from './Pokemon-Low';
 
 class PokemonPage extends Component {
   state = {
@@ -33,7 +33,6 @@ class PokemonPage extends Component {
 
   async UNSAFE_componentWillReceiveProps(props) {
     try {
-      console.log(props);
       if (props.arrow === 'previous') {
         this.setState({
           currentURL: this.state.previousURL
@@ -47,7 +46,7 @@ class PokemonPage extends Component {
       }
       const res = await fetch(this.state.currentURL);
       const pokemons = await res.json();
-        console.log(pokemons)
+
       const total = pokemons.count;
       const previousURL = pokemons.previous;
       const nextURL = pokemons.next;
@@ -67,12 +66,11 @@ class PokemonPage extends Component {
     const { pokemonEvolutions } = this.state;
     return (
       <PokeContainer>
-        {pokemonEvolutions.map(pokemon => <Pokemon key={pokemon.url} pokemon={pokemon} />)}
+        {pokemonEvolutions.map(pokemon => <PokemonLow key={pokemon.url} pokemon={pokemon} />)}
       </PokeContainer>
     );
   }
 }
-
 export default PokemonPage;
 
 const PokeContainer = styled.div`

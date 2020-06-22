@@ -1,31 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+// images
 import arrowBlue from './pokemonArrowBlue.png';
 import arrowRed from './pokemonArrowRed.png';
 import logo from './PokemonLogoWhiteBackground.jpg';
 
 
-class Header extends Component {
+const Header = (props) =>(
+  <AppHeader>
+    <button type="button" className="previous" value="previous" onClick={event => props.changePage(event.currentTarget.value)}>
+      <img className="arrow" src={arrowBlue} alt="arrow" />
+    </button>
+    <Link to="/">
+      <img src={logo} className="App-logo" alt="logo" />
+    </Link>
+    <button type="button" className="next" value="next" onClick={event => props.changePage(event.currentTarget.value)}>
+      <img className="arrow" src={arrowRed} alt="arrow" />
+    </button>
+  </AppHeader>
+);
+export default Header;
 
-  render() {
-    return(
-      <AppHeader>
-        <button type="button" className="previous" value="previous" onClick={event => this.props.changePage(event.currentTarget.value)}>
-          <img className="arrow" src={arrowBlue} alt="arrow" />
-        </button>
-        <Link to="/">
-          <img src={logo} className="App-logo" alt="logo" />
-        </Link>
-        <button type="button" className="next" value="next" onClick={event => this.props.changePage(event.currentTarget.value)}>
-          <img className="arrow" src={arrowRed} alt="arrow" />
-        </button>
-      </AppHeader>
-    )
-  }
-}
-
-const AppHeader = styled.div`
+export const AppHeader = styled.div`
   width: 375px;
   position: sticky;
   top: -1px;
@@ -55,6 +52,7 @@ const AppHeader = styled.div`
   .arrow {
     width: 100%;
     height: 100%;
+    cursor: pointer;
   }
 
   .App-logo {
@@ -77,5 +75,3 @@ const AppHeader = styled.div`
     }
   }
 `;
-
-export default Header;

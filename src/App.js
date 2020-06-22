@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import styled from 'styled-components';
+// stylesheet
 import './App.css';
+// components
 import Header from './Header';
-import PokemonChainDetail from './Pokemon-Chain-Detail';
+import PokemonEvolutionChart from './Pokemon-Evolution-Chart';
 import PokemonPage from './Pokemon-Page';
 
 class App extends Component {
@@ -19,16 +22,24 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="App">
+        <Pokedex>
           <Header changePage={this.changePage}/>
             <Switch>
               <Route exact path="/" render={props => <PokemonPage {...props} arrow={this.state.arrow} changePage={this.changePage} />} />
-              <Route path="/:id" render={props => <PokemonChainDetail {...props} />} />
+              <Route path="/:id" render={props => <PokemonEvolutionChart {...props} />} />
             </Switch>
-        </div>
+        </Pokedex>
       </Router>
     );
   }
 }
-
 export default App;
+
+const Pokedex = styled.div`
+  width: 100vw;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;

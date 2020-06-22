@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+// image
 import pokeball from './pokeballOpenT.png';
 
-class Pokemon extends Component {
+class PokemonLow extends Component {
   state = {
     pokemon: {}
   }
@@ -58,6 +59,7 @@ class Pokemon extends Component {
     )
   }
 }
+export default PokemonLow;
 
 const PokeGrid = styled.div`
   position: relative;
@@ -114,5 +116,3 @@ const PokeGrid = styled.div`
     }
   }
 `;
-
-export default Pokemon;
