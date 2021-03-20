@@ -59,14 +59,16 @@ const Stats = styled.div`
 	position: relative;
 	margin: 20px auto;
 	border: 1px solid black;
-	box-shadow: inset 3px 3px 1px black, inset -3px -3px 1px darkred;
+	background-color: gainsboro;
+	border-radius: 0.3rem;
 
 	.typesContainer {
 		width: 38%;
 		position: relative;
+		background-color: #ef0d24;
+		border: 1px solid black;
 		border-radius: 0.2rem;
 		margin: 0.5rem 0.3rem;
-		box-shadow: inset 2px 3px 4px black, inset -1px -2px 4px darkred;
 		.typesTitle {
 			background-color: gainsboro;
 			font-size: 2rem;
@@ -75,7 +77,6 @@ const Stats = styled.div`
 			border-radius: 0.3rem;
 			margin: 0.6rem;
 			.title {
-				text-shadow: 1px 1px 1px darkred;
 			}
 		}
 		.types {
@@ -93,7 +94,6 @@ const Stats = styled.div`
 				border-radius: 1rem;
 				margin: 0.3rem auto;
 				padding: 0.5rem 0.4rem;
-				box-shadow: 2px 2px 1px black;
 			}
 		}
 	}
@@ -111,13 +111,13 @@ const Stats = styled.div`
 		width: 57%;
 		margin: 0.5rem 0.3rem 0.5rem 0;
 		font-family: 'VT323', monospace;
+		border: 1px solid green;
 		border-radius: 0.3rem;
 		background-color: lightgreen;
 		display: flex;
 		flex-flow: column;
 		justify-content: center;
 		align-items: center;
-		box-shadow: inset 2px 3px 4px black, inset -1px -2px 4px darkred;
 		.stats {
 			width: 79%;
 			display: flex;
