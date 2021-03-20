@@ -6,38 +6,42 @@ const publicPath = path.join(__dirname, 'server/public/');
 
 module.exports = {
   resolve: {
-    extensions: [".js", ".jsx"],
+    extensions: ['.js', '.jsx']
   },
   entry: clientPath,
   output: {
-    path: publicPath,
+    path: publicPath
   },
   module: {
     rules: [
       {
         test: /\.jsx/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
             plugins: [
-              "@babel/plugin-transform-react-jsx",
-              "@babel/plugin-proposal-class-properties",
-            ],
-          },
-        },
+              '@babel/plugin-transform-react-jsx',
+              '@babel/plugin-proposal-class-properties'
+            ]
+          }
+        }
       },
-    ],
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: ['url-loader?limit=10000', 'img-loader']
+      }
+    ]
   },
-  devtool: "source-map",
+  devtool: 'source-map',
   devServer: {
     contentBase: publicPath,
     historyApiFallback: true,
-    host: "0.0.0.0",
+    host: '0.0.0.0',
     port: process.env.DEV_SERVER_PORT,
     proxy: {
-      "/api": `http://localhost:${process.env.PORT}`,
+      '/api': `http://localhost:${process.env.PORT}`
     },
-    stats: "minimal",
-    watchContentBase: true,
-  },
+    stats: 'minimal',
+    watchContentBase: true
+  }
 };
