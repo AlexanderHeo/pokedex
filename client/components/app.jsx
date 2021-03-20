@@ -1,25 +1,45 @@
 import React from 'react';
+// import pokemonSpeciesData from '../../data/pokemon-species.json';
+import pokemonData from '../../data/pokemon.json';
+import ImageComponent from './image';
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      message: null,
-      isLoading: true
-    };
+  state = {
+    pokemonData: {},
+    dataReady: false
   }
 
   componentDidMount() {
-    fetch('/api/health-check')
-      .then(res => res.json())
-      .then(data => this.setState({ message: data.message || data.error }))
-      .catch(err => this.setState({ message: err.message }))
-      .finally(() => this.setState({ isLoading: false }));
+    this.setState({
+      pokemonData: pokemonData,
+      dataReady: true
+    })
   }
 
+  // componentDidMount = async () => {
+  //   try {
+  //     const response = await fetch('https://pokeapi.co/api/v2/pokemon-species?limit=40')
+  //     const json = await response.json()
+  //     if (json) {
+  //       console.log(json)
+  //       this.setState({
+  //         data: json.results,
+  //         dataReady: true
+  //       })
+  //     }
+  //   } catch (err) {
+  //     console.error(err)
+  //   }
+  // }
+
   render() {
-    return this.state.isLoading
-      ? <h1>Testing connections...</h1>
-      : <h1>{ this.state.message.toUpperCase() }</h1>;
+    return (
+      <>
+        {
+          this.state.dataReady &&
+					<ImageComponent pokemon={this.state.pokemonData} />
+        }
+      </>
+    )
   }
 }
