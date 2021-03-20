@@ -3,7 +3,7 @@ import styled from 'styled-components';
 // import pokemonSpeciesData from '../../data/pokemon-species.json';
 import pokemonData from '../../data/pokemon.json';
 import ImageComponent from './image';
-import StatsComponent from './stats';
+import StatsComponent from './stats/stats';
 
 export default class App extends React.Component {
   state = {

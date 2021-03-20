@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import TypesList from './typesList'
 
 class StatsComponent extends Component {
   render() {
@@ -8,8 +9,9 @@ class StatsComponent extends Component {
         <div className="typesContainer">
           <div className="typesTitle"><div className="title">TYPES</div></div>
           <div className="types">
-            <div className="type grass"><span>Grass</span></div>
-            <div className="type poison"><span>Poison</span></div>
+            {
+              this.props.types.map(x => <TypesList key={x.slot} props={x} />)
+            }
           </div>
 
         </div>
