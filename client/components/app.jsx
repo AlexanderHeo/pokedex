@@ -1,7 +1,9 @@
 import React from 'react';
+import styled from 'styled-components';
 // import pokemonSpeciesData from '../../data/pokemon-species.json';
 import pokemonData from '../../data/pokemon.json';
 import ImageComponent from './image';
+import StatsComponent from './stats';
 
 export default class App extends React.Component {
   state = {
@@ -33,13 +35,21 @@ export default class App extends React.Component {
   // }
 
   render() {
+    const { pokemonData } = this.state
     return (
-      <>
+      <Main>
         {
           this.state.dataReady &&
-					<ImageComponent sprites={this.state.pokemonData.sprites} />
+					<>
+					  <ImageComponent sprites={pokemonData.sprites} />
+					  <StatsComponent stats={pokemonData.stats} types={pokemonData.types} />
+					</>
         }
-      </>
+      </Main>
     )
   }
 }
+
+const Main = styled.div`
+	font-family: 'Open Sans', sans-serif;
+`
