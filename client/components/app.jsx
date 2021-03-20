@@ -37,7 +37,7 @@ export default class App extends React.Component {
       <>
         {
           this.state.dataReady &&
-					<ImageComponent pokemon={this.state.pokemonData} />
+					<ImageComponent sprites={this.state.pokemonData.sprites} />
         }
       </>
     )

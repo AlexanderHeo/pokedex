@@ -17,11 +17,11 @@ class ImageComponent extends Component {
 	  back_female: '',
 	  image: '',
 	  src: front,
-	  src_set: [front, back]
+	  srcSet: [front, back]
 	}
 
 	componentDidMount = () => {
-	  const { sprites } = this.props.pokemon
+	  const { sprites } = this.props
 	  if (sprites.front_female) {
 	    this.setState({
 	      female_form: true,
@@ -43,13 +43,13 @@ class ImageComponent extends Component {
 	    if (this.state.shiny) {
 	      const set = [this.state.front_shiny, this.state.back_shiny]
 	      this.setState({
-	        src_set: set,
+	        srcSet: set,
 	        src: this.state.front_shiny
 				 })
 	    } else {
 	      const set = [this.state.front, this.state.back]
 	      this.setState({
-	        src_set: set,
+	        srcSet: set,
 	        src: this.state.front
 				 })
 	    }
@@ -58,11 +58,12 @@ class ImageComponent extends Component {
 
 	handleClick = e => {
 	  const name = e.target.name
+	  const { src, srcSet, shiny } = this.state
 	  if (name === 'turn') {
-	    if (this.state.src === this.state.src_set[0]) this.setState({ src: this.state.src_set[1] })
-	    if (this.state.src === this.state.src_set[1]) this.setState({ src: this.state.src_set[0] })
+	    if (src === srcSet[0]) this.setState({ src: srcSet[1] })
+	    if (src === srcSet[1]) this.setState({ src: srcSet[0] })
 	  }
-	  if (name === 'shiny') this.setState({ shiny: !this.state.shiny })
+	  if (name === 'shiny') this.setState({ shiny: !shiny })
 	}
 
 	render() {
