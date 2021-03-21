@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import pokemonSpecies from '../../data/pokemon-species.json';
 import pokemonData from '../../data/pokemon.json';
+import Evolution from './evolution/evolutions';
 import ImageComponent from './image';
 import Infotext from './infotext';
-// import MovesComponent from './moves/moves';
+import MovesComponent from './moves/moves';
 import StatsComponent from './stats/stats';
 
 export default class App extends React.Component {
@@ -47,7 +48,8 @@ export default class App extends React.Component {
 					  <ImageComponent sprites={pokemonData.sprites} />
 					  <Infotext pokemon={pokemonData} species={pokemonSpecies} />
 					  <StatsComponent stats={pokemonData.stats} types={pokemonData.types} />
-					  {/* <MovesComponent moves={pokemonData.moves} /> */}
+					  <MovesComponent moves={pokemonData.moves} />
+					  <Evolution evo={pokemonSpecies.evolution_chain} />
 					</>
         }
       </Main>
