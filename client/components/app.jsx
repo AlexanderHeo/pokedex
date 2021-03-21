@@ -7,6 +7,8 @@ import ImageComponent from './image';
 import Infotext from './infotext';
 import MovesComponent from './moves/moves';
 import StatsComponent from './stats/stats';
+import BlueButtons from './ui/blue';
+import Buttons from './ui/buttons';
 
 export default class App extends React.Component {
   state = {
@@ -45,11 +47,17 @@ export default class App extends React.Component {
         {
           this.state.dataReady &&
 					<>
+					  <div>
 					  <ImageComponent sprites={pokemonData.sprites} />
+					  <Buttons />
 					  <Infotext pokemon={pokemonData} species={pokemonSpecies} />
+					  </div>
+					  <div>
 					  <StatsComponent stats={pokemonData.stats} types={pokemonData.types} />
 					  <MovesComponent moves={pokemonData.moves} />
+					  <BlueButtons />
 					  <Evolution evo={pokemonSpecies.evolution_chain} />
+					  </div>
 					</>
         }
       </Main>
