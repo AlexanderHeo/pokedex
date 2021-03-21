@@ -68,18 +68,6 @@ class Moves extends Component {
 	        moveURL: this.state.list[index]
 	      })
 	    }
-
-	    // if (index === 0) {
-	    //   this.setState({
-	    //     index: 9,
-	    //     moveURL: this.state.list[9]
-	    //   })
-	    // } else {
-	    //   this.setState({
-	    //     index: index--,
-	    //     moveURL: this.state.list[index]
-	    //   })
-	    // }
 	  }
 	}
 
@@ -186,6 +174,7 @@ const MovesContainer = styled.div`
 				}
 			}
 			.statContainer {
+				position: relative;
 				.type {
 					width: 50%;
 					border: 1px solid black;
@@ -193,6 +182,13 @@ const MovesContainer = styled.div`
 					text-align: center;
 					margin-bottom: 0.4rem;
 					padding: 0.3rem;
+				}
+				.textContainer {
+					width: 139px;
+					height: 18px;
+					position: absolute;
+					overflow-y: scroll;
+					bottom: 0;
 				}
 			}
 		}
@@ -204,6 +200,7 @@ const MovesContainer = styled.div`
 		align-items: center;
 		justify-content: center;
 		.button {
+			background-color: #ef0d24;
 			border-radius: 50%;
 			width: 40px;
 			height: 40px;
