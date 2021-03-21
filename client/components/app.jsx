@@ -47,12 +47,12 @@ export default class App extends React.Component {
         {
           this.state.dataReady &&
 					<>
-					  <div>
+					  <div className="section">
 					  <ImageComponent sprites={pokemonData.sprites} />
 					  <Buttons />
 					  <Infotext pokemon={pokemonData} species={pokemonSpecies} />
 					  </div>
-					  <div>
+					  <div className="section">
 					  <StatsComponent stats={pokemonData.stats} types={pokemonData.types} />
 					  <MovesComponent moves={pokemonData.moves} />
 					  <BlueButtons />
@@ -67,4 +67,10 @@ export default class App extends React.Component {
 
 const Main = styled.div`
 	font-family: 'Open Sans', sans-serif;
+	display: flex;
+	justify-content: center;
+	margin: 2rem;
+	.section {
+		margin: auto 1rem;
+	}
 `

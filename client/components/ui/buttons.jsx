@@ -26,17 +26,14 @@ const Container = styled.div`
 	position: relative;
 	margin: 1rem auto;
 	background-color: gainsboro;
+	border: 1px solid black;
 	border-radius: 0.4rem;
-	box-shadow: inset 2px 3px 2px black, inset -2px -1px 2px black;
 	z-index: 10;
 	.button {
 		width: 40px;
 		height: 40px;
 		background-color: #ef0d24;
-		border-top: 3px solid #5c0101;
-		border-left: 3px solid #5c0101;
-		border-bottom: 3px solid black;
-		border-right: 3px solid black;
+		border: 1px solid #5c0101;
 		border-radius: 50%;
 	}
 	.middleSection {
@@ -55,10 +52,7 @@ const Container = styled.div`
 				width: 40px;
 				height: 5px;
 				background-color: #ef0d24;
-				border-top: 3px solid #5c0101;
-				border-left: 3px solid #5c0101;
-				border-bottom: 3px solid black;
-				border-right: 3px solid black;
+				border: 1px solid #5c0101;
 				border-radius: 0.25rem;
 			}
 		}
@@ -66,10 +60,7 @@ const Container = styled.div`
 			width: 100px;
 			height: 40px;
 			background-color: #ef0d24;
-			border-top: 3px solid #5c0101;
-			border-left: 3px solid #5c0101;
-			border-bottom: 3px solid black;
-			border-right: 3px solid black;
+			border: 1px solid #5c0101;
 			border-radius: 0.2rem;
 		}
 	}
@@ -77,10 +68,7 @@ const Container = styled.div`
 		width: 80px;
 		height: 80px;
 		background-color: #ef0d24;
-		border-top: 3px solid #5c0101;
-		border-left: 3px solid #5c0101;
-		border-bottom: 3px solid black;
-		border-right: 3px solid black;
+		border: 1px solid #5c0101;
 		border-radius: 50%;
 	}
 `
