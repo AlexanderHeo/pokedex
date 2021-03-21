@@ -20,36 +20,6 @@ class StatsComponent extends Component {
           {
             this.props.stats.map(x => <StatsList key={x.stat.url} stat={x} />)
           }
-          {/* <div className="stats">
-            <span className="ellipse">............................</span>
-            <span className="statsName">HP</span>
-            <span className="statsStat">45</span>
-          </div>
-          <div className="stats">
-            <span className="ellipse">............................</span>
-            <span className="statsName">Attack</span>
-            <span className="statsStat">49</span>
-          </div>
-          <div className="stats">
-            <span className="ellipse">............................</span>
-            <span className="statsName">Defense</span>
-            <span className="statsStat">49</span>
-          </div>
-          <div className="stats">
-            <span className="ellipse">............................</span>
-            <span className="statsName">Special-Attack</span>
-            <span className="statsStat">65</span>
-          </div>
-          <div className="stats">
-            <span className="ellipse">............................</span>
-            <span className="statsName">Special-Defense</span>
-            <span className="statsStat">65</span>
-          </div>
-          <div className="stats">
-            <span className="ellipse">............................</span>
-            <span className="statsName">Speed</span>
-            <span className="statsStat">45</span>
-          </div> */}
         </div>
       </Stats>
     )
