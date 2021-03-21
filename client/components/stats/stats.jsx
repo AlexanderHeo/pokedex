@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import StatsList from './statsList'
 import TypesList from './typesList'
 
 class StatsComponent extends Component {
@@ -16,7 +17,10 @@ class StatsComponent extends Component {
 
         </div>
         <div className="statsContainer">
-          <div className="stats">
+          {
+            this.props.stats.map(x => <StatsList key={x.stat.url} stat={x} />)
+          }
+          {/* <div className="stats">
             <span className="ellipse">............................</span>
             <span className="statsName">HP</span>
             <span className="statsStat">45</span>
@@ -45,7 +49,7 @@ class StatsComponent extends Component {
             <span className="ellipse">............................</span>
             <span className="statsName">Speed</span>
             <span className="statsStat">45</span>
-          </div>
+          </div> */}
         </div>
       </Stats>
     )
