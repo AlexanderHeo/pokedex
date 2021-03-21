@@ -1,10 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
 const Infotext = props => {
   const { pokemon, species } = props
   const gen = species.generation.name.split('-')[1].toUpperCase()
-
+  const txt = species.flavor_text_entries[0].flavor_text
+  const text = txt.replace('\n', ' ').replace('\f', ' ')
   return (
     <Info>
       <div className="window">
@@ -16,15 +17,15 @@ const Infotext = props => {
         <div className="infoContainer">
           <div className="stats">
             <span className="statname">height:</span>
-            <span className="stat">7</span>
+            <span className="stat">{pokemon.height}</span>
           </div>
           <div className="stats">
             <span className="statname">weight:</span>
-            <span className="stat">69</span>
+            <span className="stat">{pokemon.weight}</span>
           </div>
         </div>
         <div className="textContainer">
-          <span className="text">A strange seed was planted on it&apos;s back at birth. The plant sprouts and grows with this Pok&eacute;mon</span>
+          <span className="text">{text}</span>
         </div>
       </div>
     </Info>
