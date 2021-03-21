@@ -1,7 +1,11 @@
 import React from 'react';
-// import pokemonSpeciesData from '../../data/pokemon-species.json';
+import styled from 'styled-components';
+import pokemonSpecies from '../../data/pokemon-species.json';
 import pokemonData from '../../data/pokemon.json';
 import ImageComponent from './image';
+import Infotext from './infotext';
+// import MovesComponent from './moves/moves';
+import StatsComponent from './stats/stats';
 
 export default class App extends React.Component {
   state = {
@@ -12,6 +16,7 @@ export default class App extends React.Component {
   componentDidMount() {
     this.setState({
       pokemonData: pokemonData,
+      pokemonSpecies: pokemonSpecies,
       dataReady: true
     })
   }
@@ -33,13 +38,23 @@ export default class App extends React.Component {
   // }
 
   render() {
+    const { pokemonData, pokemonSpecies } = this.state
     return (
-      <>
+      <Main>
         {
           this.state.dataReady &&
-					<ImageComponent sprites={this.state.pokemonData.sprites} />
+					<>
+					  <ImageComponent sprites={pokemonData.sprites} />
+					  <Infotext pokemon={pokemonData} species={pokemonSpecies} />
+					  <StatsComponent stats={pokemonData.stats} types={pokemonData.types} />
+					  {/* <MovesComponent moves={pokemonData.moves} /> */}
+					</>
         }
-      </>
+      </Main>
     )
   }
 }
+
+const Main = styled.div`
+	font-family: 'Open Sans', sans-serif;
+`
