@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import Pokeball from '../../../server/public/images/Poke_Ball.png'
 
 const POKE_SPECIES_URL_ROOT = 'https://pokeapi.co/api/v2/pokemon/'
 
@@ -92,33 +93,48 @@ class Evolution extends Component {
 	      <div className='evoSection'>
 	        <div className="evoFrame">
 	          {
-	            this.state.oneLoaded &&
-							<>
-							  <img className="sprite" src={img1} />
-							  <span className="name">{name1}</span>
-							</>
+	            this.state.oneLoaded
+	              ? <>
+	                <img className="sprite" src={img1} />
+	                <span className="name">{name1}</span>
+	              </>
+	              : <>
+	                <img className="sprite" src={Pokeball} />
+	                <div className="pokeball" />
+	                <div className="nodata">No Data</div>
+	              </>
 	          }
 	        </div>
 	      </div>
 	      <div className='evoSection'>
 	        <div className="evoFrame">
 	          {
-	            this.state.twoLoaded &&
-							<>
-	          		<img className="sprite" src={img2} />
-							  <span className="name">{name2}</span>
-							</>
+	            this.state.twoLoaded
+	              ? <>
+	                <img className="sprite" src={img2} />
+	                <span className="name">{name2}</span>
+	              </>
+	              : <>
+	                <img className="sprite" src={Pokeball} />
+	                <div className="pokeball" />
+	                <div className="nodata">No Data</div>
+	              </>
 	          }
 	        </div>
 	      </div>
 	      <div className='evoSection'>
 	        <div className="evoFrame">
 	          {
-	            this.state.threeLoaded &&
-							<>
-	          		<img className="sprite" src={img3} />
-							  <span className="name">{name3}</span>
-							</>
+	            this.state.threeLoaded
+	              ? <>
+	                <img className="sprite" src={img3} />
+	                <span className="name">{name3}</span>
+	              </>
+	              : <>
+	                <img className="sprite" src={Pokeball} />
+	                <div className="pokeball" />
+	                <div className="nodata">No Data</div>
+	              </>
 	          }
 	        </div>
 	      </div>
@@ -145,6 +161,7 @@ const Evo = styled.div`
 		align-items: center;
 		.evoFrame {
 			width: 90%;
+			height: 139px;
 			position: relative;
 			display: flex;
 			flex-flow: column;
@@ -158,6 +175,15 @@ const Evo = styled.div`
 			.sprite {
 				width: 120px;
 				height: 120px;
+			}
+			.pokeball {
+				position: absolute;
+				height: 100%;
+				width: 100%;
+				background-color: rgba(0, 0, 0, 0.4);
+			}
+			.nodata {
+				color: darkgreen;
 			}
 		}
 	}
