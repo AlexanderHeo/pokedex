@@ -75,24 +75,6 @@ class Evolution extends Component {
 	            threeMulti: multi
 	          })
 	        })
-
-	        const threeUrl = evol.chain.evolves_to[0].evolves_to[0].species.url
-	        if (threeUrl) {
-	          const res = await fetch(threeUrl)
-	          const json = await res.json()
-	          if (json) {
-	            const res1 = await fetch(`https://pokeapi.co/api/v2/pokemon/${json.id}`)
-	            const data = await res1.json()
-	            if (data) {
-	              const updated = [...this.state.three]
-	              updated.push(data)
-	              this.setState({
-	                three: updated,
-	                threeLoaded: true
-	              })
-	            }
-	          }
-	        }
 	      }
 	    }
 	  } catch (err) {
@@ -129,23 +111,34 @@ class Evolution extends Component {
 
 	render() {
 	  const { one, oneLoaded, two, twoLoaded, twoIndex, three, threeLoaded, threeIndex } = this.state
-	  let name1, name2, name3, img1, img2, img3
+	  let name1
+	  let name2
+	  let name3
+	  let img1
+	  let img2
+	  let img3
+	  let frame1 = 'evoFrame'
+	  let frame2 = 'evoFrame'
+	  let frame3 = 'evoFrame'
 	  if (oneLoaded) {
 	  	name1 = `${one[0].name.charAt(0).toUpperCase()}${one[0].name.slice(1)}`
 	  	img1 = one[0].sprites.front_default
+	    if (this.props.pokemon === one[0].name) frame1 = 'evoFrame highlight'
 	  }
 	  if (twoLoaded) {
 	    name2 = `${two[twoIndex].name.charAt(0).toUpperCase()}${two[twoIndex].name.slice(1)}`
 	    img2 = two[twoIndex].sprites.front_default
+	    if (this.props.pokemon === two[twoIndex].name) frame2 = 'evoFrame highlight'
 	  }
 	  if (threeLoaded) {
 	    name3 = `${three[threeIndex].name.charAt(0).toUpperCase()}${three[threeIndex].name.slice(1)}`
 	    img3 = three[threeIndex].sprites.front_default
+	    if (this.props.pokemon === three[threeIndex].name) frame3 = 'evoFrame highlight'
 	  }
 	  return (
 	    <Evo>
 	      <div className='evoSection'>
-	        <div className="evoFrame">
+	        <div className={frame1}>
 	          {
 	            this.state.oneLoaded
 	              ? <>
@@ -161,7 +154,7 @@ class Evolution extends Component {
 	        </div>
 	      </div>
 	      <div className='evoSection'>
-	        <div className="evoFrame">
+	        <div className={frame2}>
 	          {
 	            this.state.twoLoaded
 	              ? <>
@@ -184,7 +177,7 @@ class Evolution extends Component {
 	        </div>
 	      </div>
 	      <div className='evoSection'>
-	        <div className="evoFrame">
+	        <div className={frame3} onClick={this.props.handleEvoClick}>
 	          {
 	            this.state.threeLoaded
 	              ? <>
@@ -279,6 +272,9 @@ const Evo = styled.div`
 					outline: none;
 				}
 			}
+		}
+		.highlight {
+			box-shadow: inset 10px 10px 30px gold, inset -10px -10px 30px gold;
 		}
 	}
 `
