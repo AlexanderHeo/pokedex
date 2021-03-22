@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import pokemonSpecies from '../../data/pokemon-species.json';
 import pokemonData from '../../data/pokemon.json';
-// import Evolution from './evolution/evolutions';
+import Evolution from './evolution/evolutions';
 import ImageComponent from './image';
 import Infotext from './infotext';
-// import MovesComponent from './moves/moves';
-// import StatsComponent from './stats/stats';
-// import BlueButtons from './ui/blue';
+import MovesComponent from './moves/moves';
+import StatsComponent from './stats/stats';
+import BlueButtons from './ui/blue';
 import Buttons from './ui/buttons';
 import TopFrame from './ui/topFrame';
 
@@ -63,12 +63,16 @@ export default class App extends React.Component {
 					      </div>
 					    </div>
 					  </div>
-					  {/* <div className="section right">
-					    <StatsComponent stats={pokemonData.stats} types={pokemonData.types} />
-					    <MovesComponent moves={pokemonData.moves} />
-					    <BlueButtons />
-					    <Evolution evo={pokemonSpecies.evolution_chain} />
-					  </div> */}
+					  <div className="section right">
+					    <div className="cut" />
+					    <div className="cut2" />
+					    <div className="rightPanel">
+					      <StatsComponent stats={pokemonData.stats} types={pokemonData.types} />
+					      <MovesComponent moves={pokemonData.moves} />
+					      <BlueButtons />
+					      <Evolution evo={pokemonSpecies.evolution_chain} />
+					    </div>
+					  </div>
 					</>
         }
       </Main>
@@ -81,14 +85,11 @@ const Main = styled.div`
 	display: flex;
 	justify-content: center;
 	margin: 5rem;
-	.section {
-		margin: auto 1rem;
-	}
 	.left {
 		display: flex;
 		flex-flow: column;
-		align-items: flex-start;
-		border: 1px solid black;
+		align-items: center;
+		border: 3px solid black;
 		border-radius: 1rem;
 		.leftPanel {
 			width: 420px;
@@ -108,7 +109,10 @@ const Main = styled.div`
 			bottom: 0;
 			right: -4px;
 			border: 1px solid black;
+			border-top-right-radius: 15px;
+			border-bottom-right-radius: 15px;
 			background-color: black;
+			z-index: 100;
 			.hingeShort {
 				height: 9%;
 				border: 1px solid black;
@@ -130,6 +134,38 @@ const Main = styled.div`
 		}
 	}
 	.right {
+		display: flex;
+		flex-flow: column;
+		align-self: flex-end;
+		position: relative;
+		border: 3px solid black;
+		margin-bottom: 22px;
+		border-top-right-radius: 1rem;
+		border-bottom-right-radius: 1rem;
+		z-index: 10;
+		.cut {
+			width: 140px;
+			height: 46px;
+			position: absolute;
+			top: -49px;
+			left: 0;
+			background-color: #ef0d24;
+			border-top: 3px solid black;
+			border-right: 4px solid black;
+			transform: skewX(45deg);
+			z-index: -10;
+		}
+		.cut2 {
+			width: 60px;
+			height: 10px;
+			position: absolute;
+			top: -5px;
+			left: -2px;
+			background-color: #ef0d24;
+		}
 
+		.rightPanel {
+			margin: 0.7rem 0.7rem 0.7rem 1rem;
+		}
 	}
 `

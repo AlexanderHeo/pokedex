@@ -25,7 +25,7 @@ const TopFrame = () => (
 export default TopFrame
 
 const Frame = styled.div`
-	width: 100%;
+	width: 101%;
 	height: 120px;
 	display: flex;
 	align-items: flex-start;
@@ -95,7 +95,7 @@ const Frame = styled.div`
 		height: 80px;
 		position: absolute;
 		bottom: -15px;
-		right: -82px;
+		right: -81px;
 		background-color: #ef0d24;
 		border-left: 1px solid black;
 	}
