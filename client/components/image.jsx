@@ -104,8 +104,6 @@ class ImageComponent extends Component {
 export default ImageComponent
 
 const Image = styled.div`
-	margin: auto;
-	background-color: gainsboro;
 	width: 350px;
 	height: 310px;
 	display: flex;
@@ -113,6 +111,8 @@ const Image = styled.div`
 	justify-content: flex-end;
 	align-items: center;
 	position: relative;
+
+	background-color: gainsboro;
 	border: 1px solid black;
 	border-radius: 1rem;
 	outline: none;

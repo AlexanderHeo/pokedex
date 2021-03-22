@@ -35,17 +35,17 @@ const Infotext = props => {
 export default Infotext
 
 const Info = styled.div`
-	font-family: 'VT323', monospace;
 	width: 350px;
 	height: 200px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	position: relative;
-	margin: 1rem auto;
+	font-family: 'VT323', monospace;
 	background-color: gainsboro;
 	border: 1px solid black;
 	border-radius: 0.3rem;
+	margin: 1rem 0;
 	z-index: 2;
 	.window {
 		width: 90%;

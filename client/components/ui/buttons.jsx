@@ -24,7 +24,6 @@ const Container = styled.div`
 	justify-content: space-evenly;
 	align-items: center;
 	position: relative;
-	margin: 1rem auto;
 	background-color: gainsboro;
 	border: 1px solid black;
 	border-radius: 0.4rem;
