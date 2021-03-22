@@ -33,7 +33,7 @@ class Evolution extends Component {
 		      }
 	   	  }
 	    }
-	    if (evol.chain.evolves_to.length) {
+	    if (evol.chain.evolves_to[0]) {
 	      const twoUrl = evol.chain.evolves_to[0].species.url
 	      if (twoUrl) {
 	        const res = await fetch(twoUrl)
@@ -49,20 +49,20 @@ class Evolution extends Component {
 	          }
 	        }
 	      }
-	    }
-	    if (evol.chain.evolves_to[0].evolves_to.length) {
-	      const threeUrl = evol.chain.evolves_to[0].evolves_to[0].species.url
-	      if (threeUrl) {
-	        const res = await fetch(threeUrl)
-	        const json = await res.json()
-	        if (json) {
-	          const res1 = await fetch(`https://pokeapi.co/api/v2/pokemon/${json.id}`)
-	          const data = await res1.json()
-	          if (data) {
-	            this.setState({
-	              three: data,
-	              threeLoaded: true
-	            })
+	      if (evol.chain.evolves_to[0].evolves_to[0]) {
+	        const threeUrl = evol.chain.evolves_to[0].evolves_to[0].species.url
+	        if (threeUrl) {
+	          const res = await fetch(threeUrl)
+	          const json = await res.json()
+	          if (json) {
+	            const res1 = await fetch(`https://pokeapi.co/api/v2/pokemon/${json.id}`)
+	            const data = await res1.json()
+	            if (data) {
+	              this.setState({
+	                three: data,
+	                threeLoaded: true
+	              })
+	            }
 	          }
 	        }
 	      }
