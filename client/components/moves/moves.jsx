@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Typist from 'react-typist'
 import styled from 'styled-components'
 
 class Moves extends Component {
@@ -7,7 +8,10 @@ class Moves extends Component {
 	  list: [],
 	  moveURL: '',
 	  moveData: {},
-	  moveLoaded: false
+	  moveLoaded: false,
+	  flavorTexts: [],
+	  flavorIndex: 12,
+	  flavorSet: false
 	}
 
 	componentDidMount() {
@@ -19,15 +23,27 @@ class Moves extends Component {
 	    list: ar,
 	    moveURL: ar[0]
 	  })
+	  this.setNextFlavor()
 	}
 
 	componentDidUpdate = async (prevProps, prevState) => {
 	  const { moveURL } = this.state
+	  const texts = []
 	  if (prevState.moveURL !== this.state.moveURL) {
 	    try {
 	      const response = await fetch(moveURL)
 	      const data = await response.json()
+	      if (data) {
+	        data.flavor_text_entries.forEach(x => {
+	          if (x.language.name === 'en') {
+	            const text = x.flavor_text.replace('', ' ')
+	            texts.push(text)
+	          }
+	        })
+	      }
 	      this.setState({
+	        flavorTexts: texts,
+	        flavorSet: true,
 	        moveData: data,
 	    		moveLoaded: true
 	      })
@@ -37,6 +53,25 @@ class Moves extends Component {
 	  }
 	}
 
+	setNextFlavor = () => {
+	  setInterval(() => {
+	    this.setState({ flavorSet: false })
+	    const { flavorTexts, flavorIndex } = this.state
+	    if (flavorIndex >= flavorTexts.length - 1) {
+	      this.setState({
+	        flavorIndex: 0,
+	        flavorSet: true
+	      })
+	    } else {
+	      const inc = flavorIndex + 1
+	      this.setState({
+	        flavorIndex: inc,
+	        flavorSet: true
+	      })
+	    }
+	  }, 10000)
+	}
+
 	handleClick = e => {
 	  const name = e.target.name
 	  if (name === 'up') {
@@ -44,11 +79,15 @@ class Moves extends Component {
 	    if (index > 8) {
 	      this.setState({
 	        index: 0,
+	        flavorIndex: 0,
+	        flavorSet: false,
 	        moveURL: this.state.list[0]
 	      })
 	    } else {
 	      this.setState({
 	        index: ++index,
+	        flavorIndex: 0,
+	        flavorSet: false,
 	        moveURL: this.state.list[index]
 	      })
 	    }
@@ -57,11 +96,15 @@ class Moves extends Component {
 	    if (index < 1) {
 	      this.setState({
 	        index: 9,
+	        flavorIndex: 0,
+	        flavorSet: false,
 	        moveURL: this.state.list[9]
 	      })
 	    } else {
 	      this.setState({
 	        index: --index,
+	        flavorIndex: 0,
+	        flavorSet: false,
 	        moveURL: this.state.list[index]
 	      })
 	    }
@@ -69,8 +112,8 @@ class Moves extends Component {
 	}
 
 	render() {
-	  let display, text, text1, text2
-	  const { moveLoaded, moveData } = this.state
+	  let display
+	  const { flavorTexts, flavorIndex, flavorSet, moveLoaded, moveData } = this.state
 	  if (moveLoaded) {
 	    const a = moveData.name
 	    if (a.includes('-')) {
@@ -79,10 +122,6 @@ class Moves extends Component {
 	    } else {
 	      display = `${a.charAt(0).toUpperCase()}${a.slice(1)}`
 	    }
-	    text = moveData.flavor_text_entries[0].flavor_text
-	    const index = text.indexOf('2')
-	    text1 = text.slice(0, index)
-	    text2 = text.slice(index)
 	  }
 	  return (
 	    <MovesContainer>
@@ -110,8 +149,12 @@ class Moves extends Component {
 					        <span className="type">{moveData.type.name.toUpperCase()}</span>
 					        <span className="damageClass">Damage Class: {moveData.damage_class.name.charAt(0).toUpperCase() + moveData.damage_class.name.slice(1)}</span>
 					        <div className="textContainer">
-					          <div className="text">{text1}</div>
-					          <div className="text">{text2}</div>
+					          {
+					            flavorSet &&
+											<Typist>
+											  {flavorTexts[flavorIndex]}
+											</Typist>
+					          }
 					        </div>
 					      </div>
 					    </div>
@@ -182,9 +225,18 @@ const MovesContainer = styled.div`
 				.textContainer {
 					width: 139px;
 					height: 18px;
-					position: absolute;
-					overflow-y: scroll;
+					position: relative;
 					bottom: 0;
+					background-color: darkgreen;
+					color: lightgreen;
+					border-radius: 3px;
+					margin: 0.1rem 0;
+					padding: 0 0.2rem;
+					overflow-y: hidden;
+					.Typist {
+						position: absolute;
+						bottom: 0;
+					}
 				}
 			}
 		}
