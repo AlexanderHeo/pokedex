@@ -13,7 +13,8 @@ class Infotext extends Component {
 	  const fT = []
 	  this.props.species.flavor_text_entries.forEach(x => {
 	    if (x.language.name === 'en') {
-	      fT.push(x.flavor_text)
+	      const text = x.flavor_text.replace('', ' ')
+	      fT.push(text)
 	    }
 	  })
 	  this.setState({
