@@ -14,9 +14,8 @@ class Evolution extends Component {
 	componentDidMount = async () => {
 	  const { evo } = this.props
 	  try {
-	    const res = await fetch(evo.url)
+	    const res = await fetch(evo)
 	    const evol = await res.json()
-
 	    const oneUrl = evol.chain.species.url
 	    if (oneUrl) {
 	      const res = await fetch(oneUrl)
@@ -130,6 +129,7 @@ export default Evolution
 
 const Evo = styled.div`
 	width: 400px;
+	height: 152px;
 	display: flex;
 	border: 1px solid black;
 	border-radius: 0.3rem;

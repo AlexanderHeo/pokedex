@@ -1,39 +1,38 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import back from '../../server/public/images/1back.png'
-import backShiny from '../../server/public/images/1backshiny.png'
-import front from '../../server/public/images/1front.png'
-import frontShiny from '../../server/public/images/1frontshiny.png'
 
 class ImageComponent extends Component {
 	state = {
-	  front: front,
-	  back: back,
-	  shiny: false,
-	  front_shiny: frontShiny,
-	  back_shiny: backShiny,
-	  female_form: false,
+	  front: '',
+	  back: '',
+	  shiny: '',
+	  front_shiny: '',
+	  back_shiny: '',
+	  female_form: '',
 	  front_female: '',
 	  back_female: '',
 	  image: '',
-	  src: front,
-	  srcSet: [front, back]
+	  src: '',
+	  srcSet: ['', '']
 	}
 
 	componentDidMount = () => {
 	  const { sprites } = this.props
-	  if (sprites.front_female) {
-	    this.setState({
-	      female_form: true,
-	      front_female: sprites.front_female,
-	      back_female: sprites.back_female
-	    })
-	  }
+	  // const { sprites } = this.props
+	  // if (sprites.front_female) {
+	  //   this.setState({
+	  //     female_form: true,
+	  //     front_female: sprites.front_female,
+	  //     back_female: sprites.back_female
+	  //   })
+	  // }
 	  this.setState({
 	    front: sprites.front_default,
 	    front_shiny: sprites.front_shiny,
 	    back: sprites.back_default,
 	    back_shiny: sprites.back_shiny,
+	    src: sprites.front_default,
+	    srcSet: [sprites.front_default, sprites.back_default],
 	    image: sprites.other['official-artwork']
 	  })
 	}
@@ -164,6 +163,16 @@ const Image = styled.div`
 	.frame::after {
 		right: 44%;
 	}
+	/* .frame:hover {
+		overflow: initial;
+		img {
+			background-color: white;
+			border-radius: 1rem;
+			z-index: 10000;
+			transform: scale(1.17);
+			border: 2px solid darkred;
+		}
+	} */
 	.imageButtons {
 		width: 80%;
 		height: 30%;

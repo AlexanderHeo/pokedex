@@ -90,6 +90,8 @@ const Info = styled.div`
 		}
 		.textContainer {
 			width: 70%;
+			height: 70px;
+			overflow-y: scroll;
 		}
 	}
 `

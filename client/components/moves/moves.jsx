@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import move from '../../../data/moves.json'
 
 class Moves extends Component {
 	state = {
@@ -18,14 +17,9 @@ class Moves extends Component {
 	  }
 	  this.setState({
 	    list: ar,
-	    moveData: move,
-	    moveLoaded: true
+	    moveURL: ar[0]
 	  })
 	}
-
-	// componentDidMount = () => {
-	//   this.setState({ moveURL: this.props.moves[0].move.url })
-	// }
 
 	componentDidUpdate = async (prevProps, prevState) => {
 	  const { moveURL } = this.state
@@ -33,7 +27,10 @@ class Moves extends Component {
 	    try {
 	      const response = await fetch(moveURL)
 	      const data = await response.json()
-	      this.setState({ moveData: data })
+	      this.setState({
+	        moveData: data,
+	    		moveLoaded: true
+	      })
 	    } catch (err) {
 	      console.error(err)
 	    }
@@ -136,18 +133,19 @@ class Moves extends Component {
 export default Moves
 
 const MovesContainer = styled.div`
-	margin: 0 auto;
 	width: 400px;
+	height: 115px;
+	display: flex;
 	border: 1px solid black;
 	border-radius: 0.3rem;
-	display: flex;
+	margin: 0 auto;
 	background-color: gainsboro;
 	.windowContainer {
-		font-family: 'VT323', monospace;
 		width: 85%;
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
+		font-family: 'VT323', monospace;
 		.window {
 			width: 90%;
 			display: flex;
@@ -169,9 +167,9 @@ const MovesContainer = styled.div`
 					border-bottom: 1px solid black;
 				}
 				.move {
+					width: 80%;
 					display: flex;
 					justify-content: space-between;
-					width: 80%;
 				}
 			}
 			.statContainer {

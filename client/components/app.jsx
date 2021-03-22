@@ -1,79 +1,95 @@
 import React from 'react';
 import styled from 'styled-components';
-import pokemonSpecies from '../../data/pokemon-species.json';
-import pokemonData from '../../data/pokemon.json';
 import Evolution from './evolution/evolutions';
 import ImageComponent from './image';
 import Infotext from './infotext';
 import MovesComponent from './moves/moves';
 import StatsComponent from './stats/stats';
-import BlueButtons from './ui/blue';
-import Buttons from './ui/buttons';
-import TopFrame from './ui/topFrame';
+// import BlueButtons from './ui/blue';
+// import Buttons from './ui/buttons';
+// import TopFrame from './ui/topFrame';
+
+const POKEAPI_ROOT_URL = 'https://pokeapi.co/api/v2/pokemon/'
+const POKE_INDEX = 37
 
 export default class App extends React.Component {
   state = {
-    pokemonData: {},
+    pokeIndex: POKE_INDEX,
+    pokeData: {},
+    pokeSpecies: {},
+    evoChain: {},
     dataReady: false
   }
 
   componentDidMount() {
-    this.setState({
-      pokemonData: pokemonData,
-      pokemonSpecies: pokemonSpecies,
-      dataReady: true
-    })
+    this.handlePokemonChange()
   }
 
-  // componentDidMount = async () => {
-  //   try {
-  //     const response = await fetch('https://pokeapi.co/api/v2/pokemon-species?limit=40')
-  //     const json = await response.json()
-  //     if (json) {
-  //       console.log(json)
-  //       this.setState({
-  //         data: json.results,
-  //         dataReady: true
-  //       })
-  //     }
-  //   } catch (err) {
-  //     console.error(err)
-  //   }
-  // }
+  handlePokemonChange = async () => {
+    const { pokeIndex } = this.state
+    try {
+      const req = `${POKEAPI_ROOT_URL}${pokeIndex}`
+      const param = { cache: 'force-cache' }
+      const response = await fetch(req, param)
+      const pokeData = await response.json()
+      if (pokeData) {
+        this.setState({ pokeData: pokeData })
+        const reqSpecies = pokeData.species.url
+        const resSpecies = await fetch(reqSpecies)
+        const pokeSpeciesData = await resSpecies.json()
+        if (pokeSpeciesData) {
+          this.setState({
+            pokeSpecies: pokeSpeciesData,
+            evoChain: pokeSpeciesData.evolution_chain.url,
+            dataReady: true
+          })
+        }
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   render() {
-    const { pokemonData, pokemonSpecies } = this.state
+    const { pokeData, pokeSpecies, evoChain } = this.state
     return (
       <Main>
         {
           this.state.dataReady &&
-					<>
-					  <div className="section left">
-					    <TopFrame />
-					    <div className="leftPanel">
-					      <div className="components">
-					        <ImageComponent sprites={pokemonData.sprites} />
-					        <Infotext pokemon={pokemonData} species={pokemonSpecies} />
-					        <Buttons />
-					      </div>
-					    	<div className="middleHinge">
-					        <div className="hingeShort top"></div>
-					        <div className="hingeLong"></div>
-					        <div className="hingeShort bottom"></div>
-					      </div>
-					    </div>
-					  </div>
-					  <div className="section right">
-					    <div className="cut" />
-					    <div className="cut2" />
-					    <div className="rightPanel">
-					      <StatsComponent stats={pokemonData.stats} types={pokemonData.types} />
-					      <MovesComponent moves={pokemonData.moves} />
-					      <BlueButtons />
-					      <Evolution evo={pokemonSpecies.evolution_chain} />
-					    </div>
-					  </div>
-					</>
+					<div style={{ display: 'flex', flexFlow: 'column' }}>
+					  <ImageComponent sprites={pokeData.sprites} />
+					  <Infotext pokemon={pokeData} species={pokeSpecies} />
+		    	  <StatsComponent stats={pokeData.stats} types={pokeData.types} />
+	    	    <MovesComponent moves={pokeData.moves} />
+					  <Evolution evo={ evoChain } />
+					</div>
+					// <>
+					//   <div className="section left">
+					//     <TopFrame />
+					//     <div className="leftPanel">
+					//       <div className="components">
+					//         <ImageComponent sprites={pokeData.sprites} />
+					//         <Infotext pokemon={pokeData} species={pokeSpecies} />
+					//         <Buttons />
+					//       </div>
+					//     	<div className="middleHinge">
+					//         <div className="hingeShort top"></div>
+					//         <div className="hingeLong"></div>
+					//         <div className="hingeShort bottom"></div>
+					//       </div>
+					//     </div>
+					//   </div>
+					//   <div className="section right">
+					//     <div className="cut" />
+					//     <div className="cut2" />
+					//     <div className="rightPanel">
+					//       <StatsComponent stats={pokeData.stats} types={pokeData.types} />
+					//       <MovesComponent moves={pokeData.moves} />
+					//       <BlueButtons />
+					//       <Evolution evo={evoChain} />
+					//     </div>
+					//   </div>
+					// </>
         }
       </Main>
     )

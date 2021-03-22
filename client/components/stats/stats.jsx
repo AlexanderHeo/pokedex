@@ -30,6 +30,7 @@ export default StatsComponent
 
 const Stats = styled.div`
 	width: 400px;
+	height: 188px;
 	display: flex;
 	justify-content: space-evenly;
 	position: relative;
