@@ -81,7 +81,10 @@ class ImageComponent extends Component {
 	        <div className="yellowButton" />
 
 	        <div className="shinyButtonContainer">
-	          <button className="shinyButton" onClick={this.handleClick} name="shiny">
+	          <button className={
+	            this.state.shiny
+	              ? 'shinyButton shiny'
+	              : 'shinyButton'} onClick={this.handleClick} name="shiny">
 							Shiny
 	          </button>
 	        </div>
@@ -139,6 +142,11 @@ const Image = styled.div`
 			border: none;
 			outline: none;
 			padding: 0;
+			cursor: pointer;
+		}
+		.turnButton:hover {
+			transform: scale(1.4);
+			transition: 0.3s ease;
 		}
 		.iconify {
 			font-size: 1.6rem;
@@ -193,14 +201,26 @@ const Image = styled.div`
 		.shinyButtonContainer {
 			width: 5rem;
 			height: 3rem;
-			border: 1px solid black;
+			border: 3px solid black;
 			border-radius: 25px;
 			margin: 0 1rem 0 0;
 		}
 		.shinyButton {
 			width: 100%;
 			height: 100%;
+			background: rgb(192,192,192);
+			background: linear-gradient(45deg, rgba(192,192,192,1) 54%, rgba(225,225,225,1) 64%, rgba(192,192,192,1) 73%);
+			cursor: pointer;
 			border-radius: 25px;
+			outline: none;
+		}
+		.shinyButton:hover {
+			transform: scale(1.2);
+			transition-duration: 0.3s ease;
+		}
+		.shiny {
+			background: rgb(255,215,0);
+			background: linear-gradient(45deg, rgba(255,215,0,1) 54%, rgba(255,255,255,1) 64%, rgba(255,215,0,1) 73%);
 		}
 		.grillContainer {
 			width: 4rem;
@@ -222,7 +242,7 @@ const Image = styled.div`
 		border-bottom: 1px solid transparent;
 		position: absolute;
 		bottom: -41px;
-		left: -1px;
+		left: -2px;
 		display: flex;
 		background-color: #ef0d24;
 		transform: skewY(45deg);
