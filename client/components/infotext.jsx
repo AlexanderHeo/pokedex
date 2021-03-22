@@ -40,7 +40,7 @@ class Infotext extends Component {
 	        flavorSet: true
 	      })
 	    }
-	  }, 10000)
+	  }, 15000)
 	}
 
 	render() {
