@@ -12,7 +12,7 @@ const StatsList = props => {
   }
   return (
     <div className="stats">
-      <span className="ellipse">............................</span>
+      <span className="ellipse">.......................</span>
       <span className="statsName">{display}</span>
       <span className="statsStat">{stat.base_stat}</span>
     </div>

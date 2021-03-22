@@ -139,6 +139,7 @@ const MovesContainer = styled.div`
 	margin: 0 auto;
 	width: 400px;
 	border: 1px solid black;
+	border-radius: 0.3rem;
 	display: flex;
 	background-color: gainsboro;
 	.windowContainer {

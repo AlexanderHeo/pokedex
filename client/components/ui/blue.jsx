@@ -24,9 +24,9 @@ const Buttons = styled.div`
 	height: 100px;
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
-	background-color: darkblue;
 	.button {
 		border: 1px solid darkblue;
+		border-radius: 0.5rem;
 		background-color: dodgerblue;
 	}
 `

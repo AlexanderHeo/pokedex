@@ -34,19 +34,19 @@ const Stats = styled.div`
 	justify-content: space-evenly;
 	position: relative;
 	margin: 20px auto;
-	border: 1px solid black;
-	background-color: gainsboro;
+	/* border: 1px solid black;
+	background-color: gainsboro; */
 	border-radius: 0.3rem;
 
 	.typesContainer {
 		width: 38%;
 		position: relative;
-		background-color: #ef0d24;
+		background-color: gainsboro;
 		border: 1px solid black;
 		border-radius: 0.2rem;
 		margin: 0.5rem 0.3rem;
 		.typesTitle {
-			background-color: gainsboro;
+			background-color: white;
 			font-size: 2rem;
 			text-align: center;
 			border: 1px solid black;
@@ -56,7 +56,7 @@ const Stats = styled.div`
 			}
 		}
 		.types {
-			background-color: gainsboro;
+			background-color: white;
 			text-align: center;
 			margin: 0.6rem;
 			border: 1px solid black;
@@ -90,12 +90,13 @@ const Stats = styled.div`
 		border: 1px solid green;
 		border-radius: 0.3rem;
 		background-color: lightgreen;
+		font-size: 1.2rem;
 		display: flex;
 		flex-flow: column;
 		justify-content: center;
 		align-items: center;
 		.stats {
-			width: 79%;
+			width: 80%;
 			display: flex;
 			justify-content: space-between;
 			position: relative;

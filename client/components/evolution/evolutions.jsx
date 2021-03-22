@@ -132,11 +132,12 @@ const Evo = styled.div`
 	width: 400px;
 	display: flex;
 	border: 1px solid black;
-	border-radius: 0.2rem;
+	border-radius: 0.3rem;
 	background-color: gainsboro;
 	margin: 1rem auto;
 	.evoSection {
 		width: calc(100% / 3);
+		height: 150px;
 		display: flex;
 		justify-content: center;
 		align-items: center;

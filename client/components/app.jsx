@@ -109,6 +109,7 @@ const Main = styled.div`
 			bottom: 0;
 			right: -4px;
 			border: 1px solid black;
+			border-right: none;
 			border-top-right-radius: 15px;
 			border-bottom-right-radius: 15px;
 			background-color: black;
@@ -145,7 +146,7 @@ const Main = styled.div`
 		z-index: 10;
 		.cut {
 			width: 140px;
-			height: 46px;
+			height: 45px;
 			position: absolute;
 			top: -49px;
 			left: 0;
@@ -156,12 +157,13 @@ const Main = styled.div`
 			z-index: -10;
 		}
 		.cut2 {
-			width: 60px;
-			height: 10px;
+			width: 63px;
+			height: 50px;
 			position: absolute;
-			top: -5px;
+			top: -47px;
 			left: -2px;
 			background-color: #ef0d24;
+			border-left: 1px solid black;
 		}
 
 		.rightPanel {

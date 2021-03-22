@@ -42,8 +42,8 @@ const Info = styled.div`
 	align-items: center;
 	position: relative;
 	font-family: 'VT323', monospace;
-	background-color: gainsboro;
-	border: 1px solid black;
+	/* background-color: gainsboro;
+	border: 1px solid black; */
 	border-radius: 0.3rem;
 	margin: 1rem 0;
 	z-index: 2;
