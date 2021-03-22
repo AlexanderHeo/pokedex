@@ -5,8 +5,8 @@ import styled from 'styled-components'
 class Infotext extends Component {
 	state = {
 	  flavorTexts: [],
-	  flavorDisplay: '',
-	  flavorSet: false
+	  flavorSet: false,
+	  flavorIndex: 0
 	}
 
 	componentDidMount = () => {
@@ -19,14 +19,33 @@ class Infotext extends Component {
 	  })
 	  this.setState({
 	    flavorTexts: fT,
-	    flavorDisplay: fT[0],
 	    flavorSet: true
 	  })
+	  this.setNextFlavor()
+	}
+
+	setNextFlavor = () => {
+	  setInterval(() => {
+	    this.setState({ flavorSet: false })
+	    const { flavorTexts, flavorIndex } = this.state
+	    if (flavorIndex === flavorTexts.length) {
+	      this.setState({
+	        flavorIndex: 0,
+	        flavorSet: true
+	      })
+	    } else {
+	      const inc = flavorIndex + 1
+	      this.setState({
+	        flavorIndex: inc,
+	        flavorSet: true
+	      })
+	    }
+	  }, 10000)
 	}
 
 	render() {
 	  const { pokemon, species } = this.props
-	  const { flavorDisplay, flavorSet } = this.state
+	  const { flavorTexts, flavorIndex, flavorSet } = this.state
 	  const gen = species.generation.name.split('-')[1].toUpperCase()
 	  return (
 	    <Info>
@@ -51,7 +70,7 @@ class Infotext extends Component {
 	            flavorSet &&
 							<Typist>
 							  <Typist.Delay ms={1000} />
-							  {flavorDisplay}
+							  {flavorTexts[flavorIndex]}
 							</Typist>
 	          }
 	        </div>
