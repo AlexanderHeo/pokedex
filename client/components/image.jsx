@@ -18,14 +18,13 @@ class ImageComponent extends Component {
 
 	componentDidMount = () => {
 	  const { sprites } = this.props
-	  // const { sprites } = this.props
-	  // if (sprites.front_female) {
-	  //   this.setState({
-	  //     female_form: true,
-	  //     front_female: sprites.front_female,
-	  //     back_female: sprites.back_female
-	  //   })
-	  // }
+	  if (sprites.front_female) {
+	    this.setState({
+	      female_form: true,
+	      front_female: sprites.front_female,
+	      back_female: sprites.back_female
+	    })
+	  }
 	  this.setState({
 	    front: sprites.front_default,
 	    front_shiny: sprites.front_shiny,

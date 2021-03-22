@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
+const POKE_SPECIES_URL_ROOT = 'https://pokeapi.co/api/v2/pokemon/'
+
 class Evolution extends Component {
 	state = {
 	  one: [],
@@ -21,7 +23,7 @@ class Evolution extends Component {
 	      const res = await fetch(oneUrl)
 	      const data = await res.json()
 	      if (data) {
-	        const res1 = await fetch(`https://pokeapi.co/api/v2/pokemon/${data.id}`)
+	        const res1 = await fetch(`${POKE_SPECIES_URL_ROOT}${data.id}`)
 	        const data1 = await res1.json()
 	        if (data1) {
 	          this.setState({

@@ -5,12 +5,12 @@ import ImageComponent from './image';
 import Infotext from './infotext';
 import MovesComponent from './moves/moves';
 import StatsComponent from './stats/stats';
-// import BlueButtons from './ui/blue';
-// import Buttons from './ui/buttons';
-// import TopFrame from './ui/topFrame';
+import BlueButtons from './ui/blue';
+import Buttons from './ui/buttons';
+import TopFrame from './ui/topFrame';
 
 const POKEAPI_ROOT_URL = 'https://pokeapi.co/api/v2/pokemon/'
-const POKE_INDEX = 37
+const POKE_INDEX = 778
 
 export default class App extends React.Component {
   state = {
@@ -56,40 +56,33 @@ export default class App extends React.Component {
       <Main>
         {
           this.state.dataReady &&
-					<div style={{ display: 'flex', flexFlow: 'column' }}>
-					  <ImageComponent sprites={pokeData.sprites} />
-					  <Infotext pokemon={pokeData} species={pokeSpecies} />
-		    	  <StatsComponent stats={pokeData.stats} types={pokeData.types} />
-	    	    <MovesComponent moves={pokeData.moves} />
-					  <Evolution evo={ evoChain } />
-					</div>
-					// <>
-					//   <div className="section left">
-					//     <TopFrame />
-					//     <div className="leftPanel">
-					//       <div className="components">
-					//         <ImageComponent sprites={pokeData.sprites} />
-					//         <Infotext pokemon={pokeData} species={pokeSpecies} />
-					//         <Buttons />
-					//       </div>
-					//     	<div className="middleHinge">
-					//         <div className="hingeShort top"></div>
-					//         <div className="hingeLong"></div>
-					//         <div className="hingeShort bottom"></div>
-					//       </div>
-					//     </div>
-					//   </div>
-					//   <div className="section right">
-					//     <div className="cut" />
-					//     <div className="cut2" />
-					//     <div className="rightPanel">
-					//       <StatsComponent stats={pokeData.stats} types={pokeData.types} />
-					//       <MovesComponent moves={pokeData.moves} />
-					//       <BlueButtons />
-					//       <Evolution evo={evoChain} />
-					//     </div>
-					//   </div>
-					// </>
+					<>
+					  <div className="section left">
+					    <TopFrame />
+					    <div className="leftPanel">
+					      <div className="components">
+					        <ImageComponent sprites={pokeData.sprites} />
+					        <Infotext pokemon={pokeData} species={pokeSpecies} />
+					        <Buttons />
+					      </div>
+					    	<div className="middleHinge">
+					        <div className="hingeShort top"></div>
+					        <div className="hingeLong"></div>
+					        <div className="hingeShort bottom"></div>
+					      </div>
+					    </div>
+					  </div>
+					  <div className="section right">
+					    <div className="cut" />
+					    <div className="cut2" />
+					    <div className="rightPanel">
+					      <StatsComponent stats={pokeData.stats} types={pokeData.types} />
+					      <MovesComponent moves={pokeData.moves} />
+					      <BlueButtons />
+					      <Evolution evo={evoChain} />
+					    </div>
+					  </div>
+					</>
         }
       </Main>
     )
@@ -181,7 +174,6 @@ const Main = styled.div`
 			background-color: #ef0d24;
 			border-left: 1px solid black;
 		}
-
 		.rightPanel {
 			margin: 0.7rem 0.7rem 0.7rem 1rem;
 		}

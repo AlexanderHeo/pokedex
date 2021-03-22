@@ -91,7 +91,6 @@ class Moves extends Component {
 					<>
 					  <div className="windowContainer">
 					    <div className="window">
-
 					      <div className="moveContainer">
 					        <span className="name">{display}</span>
 					        <div className="move">
@@ -115,9 +114,7 @@ class Moves extends Component {
 					          <div className="text">{text2}</div>
 					        </div>
 					      </div>
-
 					    </div>
-
 					  </div>
 					  <div className="buttonContainer">
 					    <button className="button" onClick={this.handleClick} name="up"><span className="iconify" data-icon="ant-design:caret-up-filled" data-inline="false"></span></button>
