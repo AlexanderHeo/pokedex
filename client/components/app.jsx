@@ -10,7 +10,7 @@ import Buttons from './ui/buttons';
 import TopFrame from './ui/topFrame';
 
 const POKEAPI_ROOT_URL = 'https://pokeapi.co/api/v2/pokemon/'
-const POKE_INDEX = 778
+const POKE_INDEX = 385
 
 export default class App extends React.Component {
   state = {
@@ -101,7 +101,7 @@ const Main = styled.div`
 		border: 3px solid black;
 		border-radius: 1rem;
 		.leftPanel {
-			width: 420px;
+			width: 425px;
 			display: flex;
 			position: relative;
 			margin: 0 0 0.7rem 0.7rem;
@@ -119,6 +119,7 @@ const Main = styled.div`
 			right: -4px;
 			border: 1px solid black;
 			border-right: none;
+			border-left: 6px solid black;
 			border-top-right-radius: 15px;
 			border-bottom-right-radius: 15px;
 			background-color: black;
@@ -172,7 +173,7 @@ const Main = styled.div`
 			top: -47px;
 			left: -2px;
 			background-color: #ef0d24;
-			border-left: 1px solid black;
+			border-left: 3px solid black;
 		}
 		.rightPanel {
 			margin: 0.7rem 0.7rem 0.7rem 1rem;
