@@ -66,9 +66,58 @@ class ImageComponent extends Component {
 
 	render() {
 	  const { src } = this.state
+	  const { badge } = this.props
 	  return (
 	    <Image>
 	      <div className="frame">
+	        <div className="specialBadgeContainer">
+	          {
+	            badge.isLegendary &&
+							<>
+							  <div className="badgeFrame name">
+							    <div className="badgeName legendary">
+							      <div className="nameSpan">
+											Legendary
+							      </div>
+							    </div>
+							  </div>
+							  <div className="badgeFrame initial">
+							    <div className="badgeInitial legendary">L</div>
+							  </div>
+							</>
+	          }
+	          {
+	            badge.isMythical &&
+							<>
+							  <div className="badgeFrame name">
+							    <div className="badgeName mythical">
+							      <div className="nameSpan">
+											Mythical
+							      </div>
+							    </div>
+							  </div>
+							  <div className="badgeFrame initial">
+							    <div className="badgeInitial mythical">M</div>
+							  </div>
+							</>
+	          }
+	          {
+	            badge.isBaby &&
+							<>
+							  <div className="badgeFrame name">
+							    <div className="badgeName baby">
+							      <div className="nameSpan">
+											Baby
+							      </div>
+							    </div>
+							  </div>
+							  <div className="badgeFrame initial">
+							    <div className="badgeInitial baby">B</div>
+							  </div>
+							</>
+	          }
+
+	        </div>
 	        <img src={src} />
 	        <div className="turnButtonContainer">
 	          <button className="turnButton" onClick={this.handleClick} name="turn">
@@ -128,6 +177,82 @@ const Image = styled.div`
 		border: 1px solid black;
 		border-radius: 0.35rem;
 		overflow: hidden;
+		.specialBadgeContainer {
+			display: flex;
+			flex-flow: column;
+			justify-content: flex-start;
+			align-items: flex-start;
+			position: absolute;
+			top: 0;
+			left: 0;
+			margin: 0.5rem;
+			.badgeFrame {
+				width: 30px;
+				height: 30px;
+				justify-content: center;
+				align-items: center;
+				border: 1px solid black;
+				border-radius: 25px;
+				.badgeName {
+					width: 24px;
+					height: 24px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					border: 1px solid black;
+					border-radius: 25px;
+					.nameSpan {
+						margin: 0 0.5rem;
+						overflow: hidden;
+					}
+				}
+			}
+			.name {
+				display: flex;
+				z-index: -1;
+			}
+			.initial {
+				display: flex;
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: 20;
+			}
+			.badgeInitial {
+				width: 24px;
+				height: 24px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				border: 1px solid black;
+				border-radius: 25px;
+			}
+			.legendary {
+				background-color: gold;
+			}
+			.mythical {
+				background-color: silver;
+			}
+			.baby {
+				background-color: dodgerblue;
+			}
+		}
+		.specialBadgeContainer:hover {
+			.initial {
+				display: none;
+			}
+			.name {
+				z-index: 1000;
+				width: 80px;
+				transition: width 0.2s ease;
+				transition-delay: 0.1s;
+			}
+			.badgeName {
+				width: 74px;
+				transition: width 0.2s ease;
+				transition-delay: 0.1s;
+			}
+		}
 		img {
 			width: 100%;
 		}
@@ -170,16 +295,6 @@ const Image = styled.div`
 	.frame::after {
 		right: 44%;
 	}
-	/* .frame:hover {
-		overflow: initial;
-		img {
-			background-color: white;
-			border-radius: 1rem;
-			z-index: 10000;
-			transform: scale(1.17);
-			border: 2px solid darkred;
-		}
-	} */
 	.imageButtons {
 		width: 80%;
 		height: 30%;
