@@ -113,6 +113,7 @@ const Container = styled.div`
 					align-items: center;
 					font-size: 2rem;
 					transform: rotate(-45deg);
+					pointer-events: none;
 				}
 			}
 			.direction:hover {
