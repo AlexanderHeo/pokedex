@@ -10,7 +10,7 @@ import Buttons from './ui/buttons';
 import TopFrame from './ui/topFrame';
 
 const POKEAPI_ROOT_URL = 'https://pokeapi.co/api/v2/pokemon/'
-const POKE_INDEX = 385
+const POKE_INDEX = 1
 
 export default class App extends React.Component {
   state = {
@@ -21,9 +21,15 @@ export default class App extends React.Component {
     dataReady: false
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.handlePokemonChange()
   }
+
+	componentDidUpdate = (prevProps, prevState) => {
+	  if (prevState.pokeIndex !== this.state.pokeIndex) {
+	    this.handlePokemonChange()
+	  }
+	}
 
   handlePokemonChange = async () => {
     const { pokeIndex } = this.state
@@ -50,17 +56,37 @@ export default class App extends React.Component {
     }
   }
 
-  render() {
-    const { pokeData, pokeSpecies, evoChain } = this.state
-    const badge = {
-      isBaby: pokeSpecies.is_baby,
-      isLegendary: pokeSpecies.is_legendary,
-      isMythical: pokeSpecies.is_mythical
-    }
-    return (
-      <Main>
-        {
-          this.state.dataReady &&
+	handleDpad = e => {
+	  const { name } = e.target
+	  const { pokeIndex } = this.state
+	  if (name === 'up' || name === 'right') {
+	    if (pokeIndex === 898) {
+	      this.setState({ pokeIndex: 1 })
+	    } else {
+	      const inc = pokeIndex + 1
+	      this.setState({ pokeIndex: inc })
+	    }
+	  } else if (name === 'left' || name === 'down') {
+	    if (pokeIndex === 0) {
+	      this.setState({ pokeIndex: 898 })
+	    } else {
+	      const dec = pokeIndex - 1
+	      this.setState({ pokeIndex: dec })
+	    }
+	  }
+	}
+
+	render() {
+	  const { pokeData, pokeSpecies, evoChain } = this.state
+	  const badge = {
+	    isBaby: pokeSpecies.is_baby,
+	    isLegendary: pokeSpecies.is_legendary,
+	    isMythical: pokeSpecies.is_mythical
+	  }
+	  return (
+	    <Main>
+	      {
+	        this.state.dataReady &&
 					<>
 					  <div className="section left">
 					    <TopFrame />
@@ -68,7 +94,7 @@ export default class App extends React.Component {
 					      <div className="components">
 					        <ImageComponent sprites={pokeData.sprites} badge={badge} />
 					        <Infotext pokemon={pokeData} species={pokeSpecies} />
-					        <Buttons />
+					        <Buttons name={pokeData.name} id={pokeData.id} handleDpad={this.handleDpad}/>
 					      </div>
 					    	<div className="middleHinge">
 					        <div className="hingeShort top"></div>
@@ -88,10 +114,10 @@ export default class App extends React.Component {
 					    </div>
 					  </div>
 					</>
-        }
-      </Main>
-    )
-  }
+	      }
+	    </Main>
+	  )
+	}
 }
 
 const Main = styled.div`

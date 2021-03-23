@@ -17,6 +17,10 @@ class ImageComponent extends Component {
 	}
 
 	componentDidMount = () => {
+	  this.setUrls()
+	}
+
+	setUrls = () => {
 	  const { sprites } = this.props
 	  if (sprites.front_female) {
 	    this.setState({
@@ -51,6 +55,9 @@ class ImageComponent extends Component {
 	        src: this.state.front
 				 })
 	    }
+	  }
+	  if (this.props.sprites !== prevProps.sprites) {
+	    this.setUrls()
 	  }
 	}
 
