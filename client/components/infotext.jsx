@@ -1,13 +1,10 @@
 import React, { Component } from 'react'
-import Typist from 'react-typist'
 import styled from 'styled-components'
 
 class Infotext extends Component {
-	intervalID = 66
 	state = {
-	  flavorTexts: [],
-	  flavorSet: false,
-	  flavorIndex: 0
+	  flavor: '',
+	  flavorReady: false
 	}
 
 	componentDidMount() {
@@ -15,55 +12,30 @@ class Infotext extends Component {
 	}
 
 	componentDidUpdate(prevProps) {
-	  if (prevProps.species !== this.props.species) {
-	    this.forceUpdate()
+	  if (prevProps.flavors !== this.props.flavors) {
+	    this.setFlavor()
 	  }
 	}
 
-	componentWillUnmount() {
-	  clearInterval(this.intervalID)
-	}
-
 	setFlavor = () => {
-	  const fT = []
-	  this.props.species.flavor_text_entries.forEach(x => {
-	    if (x.language.name === 'en') {
-	      const text = x.flavor_text.replace('', ' ')
-	      fT.push(text)
-	    }
-	  })
-	  this.setState({
-	    flavorTexts: fT,
-	    flavorSet: true,
-	    flavorIndex: 0
-	  })
-	  this.setFlavorInterval()
-	}
-
-	setFlavorInterval = () => {
-	  this.intervalID = setInterval(() => {
-	    this.setState({ flavorSet: false })
-	    const { flavorTexts, flavorIndex } = this.state
-	    if (flavorIndex === flavorTexts.length) {
+	  const { flavors } = this.props
+	  let i = 0
+	  while (i < flavors.length) {
+	    if (flavors[i].language.name === 'en') {
+	      const text = flavors[i].flavor_text.replace('', ' ')
 	      this.setState({
-	        flavorIndex: 0,
-	        flavorSet: true
+	        flavor: text,
+	        flavorReady: true
 	      })
-	    } else {
-	      const inc = flavorIndex + 1
-	      this.setState({
-	        flavorIndex: inc,
-	        flavorSet: true
-	      })
-	    }
-	  }, 15000)
-
+	      break
+	    } else i++
+	  }
 	}
 
 	render() {
-	  const { pokemon, species } = this.props
-	  const { flavorTexts, flavorIndex, flavorSet } = this.state
-	  const gen = species.generation.name.split('-')[1].toUpperCase()
+	  const { pokemon, generation } = this.props
+	  const { flavor, flavorReady } = this.state
+	  const gen = generation.split('-')[1].toUpperCase()
 	  return (
 	    <Info>
 	      <div className="window">
@@ -83,13 +55,7 @@ class Infotext extends Component {
 	          </div>
 	        </div>
 	        <div className="textContainer">
-	          {
-	            flavorSet &&
-							<Typist>
-							  <Typist.Delay ms={1000} />
-							  {flavorTexts[flavorIndex]}
-							</Typist>
-	          }
+	          { flavorReady && <div>{flavor}</div> }
 	        </div>
 	      </div>
 	    </Info>
@@ -106,7 +72,6 @@ const Info = styled.div`
 	justify-content: center;
 	align-items: center;
 	position: relative;
-	font-family: 'VT323', monospace;
 	border-radius: 0.3rem;
 	margin: 1rem 0;
 	z-index: 2;
@@ -152,14 +117,12 @@ const Info = styled.div`
 		}
 		.textContainer {
 			width: 70%;
-			height: 38px;
 			position: relative;
-			margin: 1rem;
+			color: lightgreen;
+			background-color: darkgreen;
+			border-radius: 0.2rem;
+			padding: 0.3rem;
 			overflow-y: hidden;
-			.Typist {
-				position: absolute;
-				bottom: 0;
-			}
 		}
 	}
 `

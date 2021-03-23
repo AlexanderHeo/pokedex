@@ -92,7 +92,11 @@ export default class App extends React.Component {
 					    <div className="leftPanel">
 					      <div className="components">
 					        <ImageComponent sprites={pokeData.sprites} badge={badge} />
-					        <Infotext pokemon={pokeData} species={pokeSpecies} />
+					        <Infotext
+					          pokemon={pokeData}
+					          flavors={pokeSpecies.flavor_text_entries}
+					          generation={pokeSpecies.generation.name}
+					        />
 					        <Buttons name={pokeData.name} id={pokeData.id} handleDpad={this.handleDpad}/>
 					      </div>
 					    	<div className="middleHinge">
@@ -123,6 +127,7 @@ const Main = styled.div`
 	font-family: 'VT323', monospace;
 	display: flex;
 	justify-content: center;
+	color: darkgreen;
 	margin: 5rem;
 	.left {
 		display: flex;
