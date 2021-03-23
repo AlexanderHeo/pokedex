@@ -52,6 +52,11 @@ export default class App extends React.Component {
 
   render() {
     const { pokeData, pokeSpecies, evoChain } = this.state
+    const badge = {
+      isBaby: pokeSpecies.is_baby,
+      isLegendary: pokeSpecies.is_legendary,
+      isMythical: pokeSpecies.is_mythical
+    }
     return (
       <Main>
         {
@@ -61,7 +66,7 @@ export default class App extends React.Component {
 					    <TopFrame />
 					    <div className="leftPanel">
 					      <div className="components">
-					        <ImageComponent sprites={pokeData.sprites} />
+					        <ImageComponent sprites={pokeData.sprites} badge={badge} />
 					        <Infotext pokemon={pokeData} species={pokeSpecies} />
 					        <Buttons />
 					      </div>
@@ -79,7 +84,7 @@ export default class App extends React.Component {
 					      <StatsComponent stats={pokeData.stats} types={pokeData.types} />
 					      <MovesComponent moves={pokeData.moves} />
 					      <BlueButtons />
-					      <Evolution evo={evoChain} />
+					      <Evolution evo={evoChain} pokemon={pokeData.name} />
 					    </div>
 					  </div>
 					</>
@@ -90,7 +95,7 @@ export default class App extends React.Component {
 }
 
 const Main = styled.div`
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'VT323', monospace;
 	display: flex;
 	justify-content: center;
 	margin: 5rem;
@@ -173,7 +178,7 @@ const Main = styled.div`
 			top: -47px;
 			left: -2px;
 			background-color: #ef0d24;
-			border-left: 3px solid black;
+			border-left: 2px solid black;
 		}
 		.rightPanel {
 			margin: 0.7rem 0.7rem 0.7rem 1rem;
