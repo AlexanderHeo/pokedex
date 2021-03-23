@@ -3,13 +3,28 @@ import Typist from 'react-typist'
 import styled from 'styled-components'
 
 class Infotext extends Component {
+	intervalID = 66
 	state = {
 	  flavorTexts: [],
 	  flavorSet: false,
 	  flavorIndex: 0
 	}
 
-	componentDidMount = () => {
+	componentDidMount() {
+	  this.setFlavor()
+	}
+
+	componentDidUpdate(prevProps) {
+	  if (prevProps.species !== this.props.species) {
+	    this.forceUpdate()
+	  }
+	}
+
+	componentWillUnmount() {
+	  clearInterval(this.intervalID)
+	}
+
+	setFlavor = () => {
 	  const fT = []
 	  this.props.species.flavor_text_entries.forEach(x => {
 	    if (x.language.name === 'en') {
@@ -19,13 +34,14 @@ class Infotext extends Component {
 	  })
 	  this.setState({
 	    flavorTexts: fT,
-	    flavorSet: true
+	    flavorSet: true,
+	    flavorIndex: 0
 	  })
-	  this.setNextFlavor()
+	  this.setFlavorInterval()
 	}
 
-	setNextFlavor = () => {
-	  setInterval(() => {
+	setFlavorInterval = () => {
+	  this.intervalID = setInterval(() => {
 	    this.setState({ flavorSet: false })
 	    const { flavorTexts, flavorIndex } = this.state
 	    if (flavorIndex === flavorTexts.length) {
@@ -41,6 +57,7 @@ class Infotext extends Component {
 	      })
 	    }
 	  }, 15000)
+
 	}
 
 	render() {

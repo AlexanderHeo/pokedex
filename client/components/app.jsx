@@ -35,8 +35,7 @@ export default class App extends React.Component {
     const { pokeIndex } = this.state
     try {
       const req = `${POKEAPI_ROOT_URL}${pokeIndex}`
-      const param = { cache: 'force-cache' }
-      const response = await fetch(req, param)
+      const response = await fetch(req)
       const pokeData = await response.json()
       if (pokeData) {
         this.setState({ pokeData: pokeData })
@@ -187,9 +186,9 @@ const Main = styled.div`
 		z-index: 10;
 		.cut {
 			width: 140px;
-			height: 45px;
+			height: 47px;
 			position: absolute;
-			top: -49px;
+			top: -50px;
 			left: 0;
 			background-color: #ef0d24;
 			border-top: 3px solid black;
