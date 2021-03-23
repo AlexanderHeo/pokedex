@@ -10,7 +10,7 @@ class Moves extends Component {
 	  moveData: {},
 	  moveLoaded: false,
 	  flavorTexts: [],
-	  flavorIndex: 12,
+	  flavorIndex: 0,
 	  flavorSet: false
 	}
 
@@ -69,7 +69,7 @@ class Moves extends Component {
 	        flavorSet: true
 	      })
 	    }
-	  }, 10000)
+	  }, 15000)
 	}
 
 	handleClick = e => {
@@ -114,6 +114,8 @@ class Moves extends Component {
 	render() {
 	  let display
 	  const { flavorTexts, flavorIndex, flavorSet, moveLoaded, moveData } = this.state
+	  let flav = flavorTexts[flavorIndex]
+	  if (!flav) flav = flavorTexts[0]
 	  if (moveLoaded) {
 	    const a = moveData.name
 	    if (a.includes('-')) {
@@ -152,7 +154,7 @@ class Moves extends Component {
 					          {
 					            flavorSet &&
 											<Typist>
-											  {flavorTexts[flavorIndex]}
+											  {flav}
 											</Typist>
 					          }
 					        </div>
@@ -192,14 +194,15 @@ const MovesContainer = styled.div`
 			border: 1px solid black;
 			border-radius: 0.3rem;
 			background-color: lightgreen;
-			padding: 1rem;
 			margin: 0.3rem;
+			box-shadow: inset 2px 2px 4px darkgreen, inset -2px -2px 4px limegreen;
 			.moveContainer,
 			.statContainer {
 				width: 50%;
 				display: flex;
 				flex-flow: column;
 				align-items: center;
+				margin: 1rem 0;
 			}
 			.moveContainer {
 				.name {
@@ -214,6 +217,7 @@ const MovesContainer = styled.div`
 			}
 			.statContainer {
 				position: relative;
+				margin: 0.5rem 0 0.2rem 0;
 				.type {
 					width: 50%;
 					border: 1px solid black;
@@ -223,15 +227,15 @@ const MovesContainer = styled.div`
 					padding: 0.3rem;
 				}
 				.textContainer {
-					width: 139px;
-					height: 18px;
+					width: 123px;
+					height: 16px;
 					position: relative;
 					bottom: 0;
 					background-color: darkgreen;
 					color: lightgreen;
 					border-radius: 3px;
 					margin: 0.1rem 0;
-					padding: 0 0.2rem;
+					padding: 0.5rem 0.6rem;
 					overflow-y: hidden;
 					.Typist {
 						position: absolute;
