@@ -18,7 +18,29 @@ class Evolution extends Component {
 	  threeMulti: false
 	}
 
-	componentDidMount = async () => {
+	componentDidMount = () => {
+	  this.setEvoData()
+	}
+
+	componentDidUpdate = prevProps => {
+	  if (prevProps.evo !== this.props.evo) {
+	    this.setState({
+	      one: [],
+	      oneLoaded: false,
+	      two: [],
+	      twoLoaded: false,
+	      twoIndex: 0,
+	      twoMulti: false,
+	      three: [],
+	      threeLoaded: false,
+	      threeIndex: 0,
+	      threeMulti: false
+	    })
+	    this.setEvoData()
+	  }
+	}
+
+	setEvoData = async () => {
 	  const { evo } = this.props
 	  try {
 	    const res = await fetch(evo)
@@ -31,9 +53,8 @@ class Evolution extends Component {
 	        const res1 = await fetch(`${POKEAPI_URL_ROOT}${data.id}`)
 	        const data1 = await res1.json()
 	        if (data1) {
-	          const updated = this.state.one.concat(data1)
 	          this.setState({
-	            one: updated,
+	            one: [data1],
 	            oneLoaded: true
 	      		})
 		      }
@@ -50,32 +71,30 @@ class Evolution extends Component {
 	          const data = await res1.json()
 	          if (data) twoSet.push(data)
 	        }
-	        const multi = twoSet.length > 1
-	        this.setState({
-	          two: twoSet,
-	          twoLoaded: true,
-	          twoMulti: multi
-	        })
-	      })
-	      if (evol.chain.evolves_to[0].evolves_to[0]) {
-	        const threeSet = []
-	        evol.chain.evolves_to[0].evolves_to.map(async x => {
-	          const url = x.species.url
-	          const res = await fetch(url)
-	          const json = await res.json()
-	          if (json) {
-	            const res1 = await fetch(`${POKEAPI_URL_ROOT}${json.id}`)
-	            const data = await res1.json()
-	            if (data) threeSet.push(data)
-	          }
-	          const multi = threeSet.length > 1
-	          this.setState({
-	            three: threeSet,
-	            threeLoaded: true,
-	            threeMulti: multi
+	        if (evol.chain.evolves_to[0].evolves_to[0]) {
+	          const threeSet = []
+	          evol.chain.evolves_to[0].evolves_to.map(async x => {
+	            const url = x.species.url
+	            const res = await fetch(url)
+	            const json = await res.json()
+	            if (json) {
+	              const res1 = await fetch(`${POKEAPI_URL_ROOT}${json.id}`)
+	              const data = await res1.json()
+	              if (data) threeSet.push(data)
+	            }
+	            const multi2 = twoSet.length > 1
+	            const multi3 = threeSet.length > 1
+	            this.setState({
+	              two: twoSet,
+	              twoLoaded: true,
+	              twoMulti: multi2,
+	              three: threeSet,
+	              threeLoaded: true,
+	              threeMulti: multi3
+	            })
 	          })
-	        })
-	      }
+	        }
+	      })
 	    }
 	  } catch (err) {
 	    console.error(err)
