@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import Pokeball from '../../server/public/images/Poke_Ball.png'
 
 class ImageComponent extends Component {
 	state = {
-	  front: '',
-	  back: '',
+	  front: Pokeball,
+	  back: Pokeball,
 	  shiny: '',
 	  front_shiny: '',
 	  back_shiny: '',
@@ -13,7 +14,9 @@ class ImageComponent extends Component {
 	  back_female: '',
 	  image: '',
 	  src: '',
-	  srcSet: ['', '']
+	  srcSet: [Pokeball, Pokeball],
+	  srcIndex: 0,
+	  ready: false
 	}
 
 	componentDidMount = () => {
@@ -22,38 +25,34 @@ class ImageComponent extends Component {
 
 	setUrls = () => {
 	  const { sprites } = this.props
-	  if (sprites.front_female) {
+	  if (sprites) {
+	    if (sprites.front_female) {
+	      this.setState({
+	        female_form: true,
+	        front_female: sprites.front_female,
+	        back_female: sprites.back_female
+	      })
+	    }
 	    this.setState({
-	      female_form: true,
-	      front_female: sprites.front_female,
-	      back_female: sprites.back_female
+	      front: sprites.front_default,
+	      front_shiny: sprites.front_shiny,
+	      back: sprites.back_default,
+	      back_shiny: sprites.back_shiny,
+	      src: sprites.front_default,
+	      srcSet: [sprites.front_default, sprites.back_default],
+	      ready: true
 	    })
 	  }
-	  this.setState({
-	    front: sprites.front_default,
-	    front_shiny: sprites.front_shiny,
-	    back: sprites.back_default,
-	    back_shiny: sprites.back_shiny,
-	    src: sprites.front_default,
-	    srcSet: [sprites.front_default, sprites.back_default],
-	    image: sprites.other['official-artwork']
-	  })
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
 	  if (this.state.shiny !== prevState.shiny) {
 	    if (this.state.shiny) {
 	      const set = [this.state.front_shiny, this.state.back_shiny]
-	      this.setState({
-	        srcSet: set,
-	        src: this.state.front_shiny
-				 })
+	      this.setState({ srcSet: set })
 	    } else {
 	      const set = [this.state.front, this.state.back]
-	      this.setState({
-	        srcSet: set,
-	        src: this.state.front
-				 })
+	      this.setState({ srcSet: set })
 	    }
 	  }
 	  if (this.props.sprites !== prevProps.sprites) {
@@ -63,69 +62,76 @@ class ImageComponent extends Component {
 
 	handleClick = e => {
 	  const name = e.target.name
-	  const { src, srcSet, shiny } = this.state
+	  const { srcIndex, shiny } = this.state
 	  if (name === 'turn') {
-	    if (src === srcSet[0]) this.setState({ src: srcSet[1] })
-	    if (src === srcSet[1]) this.setState({ src: srcSet[0] })
+	    if (srcIndex) this.setState({ srcIndex: 0 })
+	    else this.setState({ srcIndex: 1 })
 	  }
 	  if (name === 'shiny') this.setState({ shiny: !shiny })
 	}
 
 	render() {
-	  const { src } = this.state
+	  const { ready, srcSet, srcIndex } = this.state
 	  const { badge } = this.props
+	  let src = Pokeball
+	  let pokeClass = 'pokeball'
+	  if (ready) {
+	    src = srcSet[srcIndex]
+	    pokeClass = ''
+	  }
 	  return (
 	    <Image>
 	      <div className="frame">
-	        <div className="specialBadgeContainer">
-	          {
-	            badge.isLegendary &&
-							<>
-							  <div className="badgeFrame name">
-							    <div className="badgeName legendary">
-							      <div className="nameSpan">
-											Legendary
-							      </div>
-							    </div>
-							  </div>
-							  <div className="badgeFrame initial">
-							    <div className="badgeInitial legendary">L</div>
-							  </div>
-							</>
-	          }
-	          {
-	            badge.isMythical &&
-							<>
-							  <div className="badgeFrame name">
-							    <div className="badgeName mythical">
-							      <div className="nameSpan">
-											Mythical
-							      </div>
-							    </div>
-							  </div>
-							  <div className="badgeFrame initial">
-							    <div className="badgeInitial mythical">M</div>
-							  </div>
-							</>
-	          }
-	          {
-	            badge.isBaby &&
-							<>
-							  <div className="badgeFrame name">
-							    <div className="badgeName baby">
-							      <div className="nameSpan">
-											Baby
-							      </div>
-							    </div>
-							  </div>
-							  <div className="badgeFrame initial">
-							    <div className="badgeInitial baby">B</div>
-							  </div>
-							</>
-	          }
-
-	        </div>
-	        <img src={src} />
+	        {
+	          ready && <div className="specialBadgeContainer">
+	            {
+	              badge.isLegendary &&
+								<>
+								  <div className="badgeFrame name">
+								    <div className="badgeName legendary">
+								      <div className="nameSpan">
+												Legendary
+								      </div>
+								    </div>
+								  </div>
+								  <div className="badgeFrame initial">
+								    <div className="badgeInitial legendary">L</div>
+								  </div>
+								</>
+	            }
+	            {
+	              badge.isMythical &&
+								<>
+								  <div className="badgeFrame name">
+								    <div className="badgeName mythical">
+								      <div className="nameSpan">
+												Mythical
+								      </div>
+								    </div>
+								  </div>
+								  <div className="badgeFrame initial">
+								    <div className="badgeInitial mythical">M</div>
+								  </div>
+								</>
+	            }
+	            {
+	              badge.isBaby &&
+								<>
+								  <div className="badgeFrame name">
+								    <div className="badgeName baby">
+								      <div className="nameSpan">
+												Baby
+								      </div>
+								    </div>
+								  </div>
+								  <div className="badgeFrame initial">
+								    <div className="badgeInitial baby">B</div>
+								  </div>
+								</>
+	            }
+	          </div>
+	        }
+	        <img src={src} className={pokeClass} />
 	        <div className="turnButtonContainer">
 	          <button className="turnButton" onClick={this.handleClick} name="turn">
 	            <span className="iconify" data-icon="ic:round-change-circle" data-inline="false" />
@@ -262,6 +268,10 @@ const Image = styled.div`
 		}
 		img {
 			width: 100%;
+		}
+		.pokeball {
+			opacity: 0.4;
+			transform: scale(0.5);
 		}
 		.turnButtonContainer {
 			position:absolute;
