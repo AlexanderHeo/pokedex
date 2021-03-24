@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-// import Evolution from './evolution/evolutions';
+import Evolution from './evolution/evolutions';
 import ImageComponent from './image';
 import Infotext from './infotext';
 import MovesComponent from './moves/moves';
@@ -10,7 +10,7 @@ import Buttons from './ui/buttons';
 import TopFrame from './ui/topFrame';
 
 const POKEAPI_ROOT_URL = 'https://pokeapi.co/api/v2/pokemon/'
-const POKE_INDEX = 61
+const POKE_INDEX = 10
 
 export default class App extends React.Component {
   state = {
@@ -19,6 +19,7 @@ export default class App extends React.Component {
     pokeSpecies: {},
     pokeMoves: [],
     evolution: {},
+    evoReady: false,
     dataReady: false
   }
 
@@ -135,7 +136,10 @@ export default class App extends React.Component {
 
                     const current = pokeData.name
                     const evolution = { setOne, setTwo, setThree, current }
-                    this.setState({ evolution: evolution })
+                    this.setState({
+                      evolution: evolution,
+                      evoReady: true
+                    })
                   }
                 })
               }
@@ -175,7 +179,7 @@ export default class App extends React.Component {
 	}
 
 	render() {
-	  const { pokeData, pokeSpecies, pokeMoves } = this.state
+	  const { dataReady, pokeData, pokeSpecies, pokeMoves, evolution, evoReady } = this.state
 	  const badge = {
 	    isBaby: pokeSpecies.is_baby,
 	    isLegendary: pokeSpecies.is_legendary,
@@ -184,7 +188,7 @@ export default class App extends React.Component {
 	  return (
 	    <Main>
 	      {
-	        this.state.dataReady &&
+	        dataReady &&
 					<>
 					  <div className="section left">
 					    <TopFrame />
@@ -212,7 +216,9 @@ export default class App extends React.Component {
 					      <StatsComponent stats={pokeData.stats} types={pokeData.types} />
 					      <MovesComponent moves={pokeMoves} />
 					      <BlueButtons />
-					      {/* <Evolution evo={evolution} /> */}
+					      {
+					        evoReady && <Evolution evo={evolution} />
+					      }
 					    </div>
 					  </div>
 					</>
