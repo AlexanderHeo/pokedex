@@ -44,7 +44,9 @@ class Evolution extends Component {
 	    twoReady: twoReady,
 	    threeReady: threeReady,
 	    twoMulti: setTwo.length > 1,
-	    threeMulti: setThree.length > 1
+	    threeMulti: setThree.length > 1,
+	    twoIndex: 0,
+	    threeIndex: 0
 	  })
 	}
 
@@ -76,12 +78,17 @@ class Evolution extends Component {
 	  const { evo } = this.props
 	  const { current, setOne, setTwo, setThree } = evo
 	  const { twoMulti, threeMulti, twoReady, threeReady, twoIndex, threeIndex } = this.state
+	  let name2, name3, img2, img3
 	  const name1 = setOne[0].name
-	  const name2 = setTwo[twoIndex].name
-	  const name3 = setThree[threeIndex].name
 	  const img1 = setOne[0].sprite
-	  const img2 = setTwo[twoIndex].sprite
-	  const img3 = setThree[threeIndex].sprite
+	  if (setTwo.length) {
+	    name2 = setTwo[twoIndex].name
+	    img2 = setTwo[twoIndex].sprite
+	  }
+	  if (setThree.length) {
+	    name3 = setThree[threeIndex].name
+	    img3 = setThree[threeIndex].sprite
+	  }
 	  let frame1 = 'evoFrame'
 	  let frame2 = 'evoFrame'
 	  let frame3 = 'evoFrame'
