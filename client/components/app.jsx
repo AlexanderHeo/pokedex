@@ -10,17 +10,25 @@ import Buttons from './ui/buttons';
 import TopFrame from './ui/topFrame';
 
 const POKEAPI_ROOT_URL = 'https://pokeapi.co/api/v2/pokemon/'
-const POKE_INDEX = 385
+const POKE_INDEX = 226
 
 export default class App extends React.Component {
   state = {
     pokeIndex: POKE_INDEX,
-    pokeData: {},
+    pokeData: {
+      name: 'Pokémon',
+      id: '--',
+      height: '--',
+      weight: '--'
+    },
+    pokeDataReady: false,
     pokeSpecies: {},
+    pokeSpeciesReady: false,
     pokeMoves: [],
+    pokeMovesReady: false,
     evolution: {},
     evoReady: false,
-    dataReady: false
+    defaultName: 'Pokemon'
   }
 
   componentDidMount = () => {
@@ -34,7 +42,8 @@ export default class App extends React.Component {
 	}
 
   handlePokemonChange = async () => {
-    const { pokeIndex } = this.state
+    this.setState({ dataReady: false })
+    const { pokeIndex, defaultName } = this.state
     try {
 
       // fetch pokemon info
@@ -42,7 +51,11 @@ export default class App extends React.Component {
       const response = await fetch(url)
       const pokeData = await response.json()
       if (pokeData) {
-        const current = pokeData.name
+        this.setState({
+          pokeData: pokeData,
+          pokeDataReady: true
+        })
+        const current = pokeData.name || defaultName
         // fetch maximum 10 moves
         const len = pokeData.moves.length
         const maxIndex = Math.min(10, len)
@@ -53,13 +66,19 @@ export default class App extends React.Component {
           const dataMoves = await resMoves.json()
           if (dataMoves) pokeMoves.push(dataMoves)
         }
-
+        this.setState({
+          pokeMoves: pokeMoves,
+          pokeMovesReady: true
+        })
         // fetch species info
         const urlSpecies = pokeData.species.url
         const resSpecies = await fetch(urlSpecies)
         const pokeSpeciesData = await resSpecies.json()
         if (pokeSpeciesData) {
-
+          this.setState({
+            pokeSpecies: pokeSpeciesData,
+            pokeSpeciesReady: true
+          })
           // EVOLUTION CHAIN START
           // fetch evo chain info
           const urlEvo = pokeSpeciesData.evolution_chain.url
@@ -87,7 +106,7 @@ export default class App extends React.Component {
             }
             setOne.push(ichi)
             // check for second evolution, map through all
-            if (dataEvo.chain.evolves_to.length) {
+            if (dataEvo.chain.evolves_to[0]) {
               dataEvo.chain.evolves_to.map(async x => {
 
                 // fetch second evo species info
@@ -112,7 +131,7 @@ export default class App extends React.Component {
               })
 
               // check for third evolution, map through all
-              if (dataEvo.chain.evolves_to[0].evolves_to.length) {
+              if (dataEvo.chain.evolves_to[0].evolves_to[0]) {
                 dataEvo.chain.evolves_to[0].evolves_to.map(async x => {
 
                   // fetch third evo species info
@@ -140,8 +159,14 @@ export default class App extends React.Component {
                     })
                   }
                 })
+              } else { // if no third evolution
+                const { evolution } = { setOne, setTwo, current }
+                this.setState({
+                  evolution: evolution,
+                  evoReady: true
+                })
               }
-            } else { // if no second evolves
+            } else { // if no second evolution
               const evolution = { setOne, current }
               this.setState({
                 evolution: evolution,
@@ -149,13 +174,8 @@ export default class App extends React.Component {
               })
             }
           } // END OF EVOLUTION CHAIN
-          this.setState({
-            pokeData: pokeData,
-            pokeSpecies: pokeSpeciesData,
-            pokeMoves: pokeMoves,
-            dataReady: true
-          })
         }
+        // this.setState({ dataReady: true })
       }
     } catch (err) {
       console.error(err)
@@ -183,7 +203,16 @@ export default class App extends React.Component {
 	}
 
 	render() {
-	  const { dataReady, pokeData, pokeSpecies, pokeMoves, evolution, evoReady } = this.state
+	  const {
+	    pokeData,
+	    pokeDataReady,
+	    pokeSpecies,
+	    pokeSpeciesReady,
+	    pokeMoves,
+	    pokeMovesReady,
+	    evolution,
+	    evoReady
+	  } = this.state
 	  const badge = {
 	    isBaby: pokeSpecies.is_baby,
 	    isLegendary: pokeSpecies.is_legendary,
@@ -191,42 +220,35 @@ export default class App extends React.Component {
 	  }
 	  return (
 	    <Main>
-	      {
-	        dataReady &&
-					<>
-					  <div className="section left">
-					    <TopFrame />
-					    <div className="leftPanel">
-					      <div className="components">
-					        <ImageComponent sprites={pokeData.sprites} badge={badge} />
-					        <Infotext
-					          pokemon={pokeData}
-					          flavors={pokeSpecies.flavor_text_entries}
-					          generation={pokeSpecies.generation.name}
-					        />
-					        <Buttons name={pokeData.name} id={pokeData.id} handleDpad={this.handleDpad}/>
-					      </div>
-					    	<div className="middleHinge">
-					        <div className="hingeShort top"></div>
-					        <div className="hingeLong"></div>
-					        <div className="hingeShort bottom"></div>
-					      </div>
-					    </div>
-					  </div>
-					  <div className="section right">
-					    <div className="cut" />
-					    <div className="cut2" />
-					    <div className="rightPanel">
-					      <StatsComponent stats={pokeData.stats} types={pokeData.types} />
-					      <MovesComponent moves={pokeMoves} />
-					      <BlueButtons />
-					      {
-					        evoReady && <Evolution evo={evolution} />
-					      }
-					    </div>
-					  </div>
-					</>
-	      }
+	      <div className="section left">
+	        <TopFrame />
+	        <div className="leftPanel">
+	          <div className="components">
+	            <ImageComponent sprites={pokeData.sprites} badge={badge} ready={pokeDataReady} />
+	            { pokeSpeciesReady && <Infotext
+	              pokemon={pokeData}
+	              flavors={pokeSpecies.flavor_text_entries}
+	              generation={pokeSpecies.generation.name}
+	            /> }
+	            <Buttons name={pokeData.name} id={pokeData.id} handleDpad={this.handleDpad}/>
+	          </div>
+	          <div className="middleHinge">
+	            <div className="hingeShort top"></div>
+	            <div className="hingeLong"></div>
+	            <div className="hingeShort bottom"></div>
+	          </div>
+	        </div>
+	      </div>
+	      <div className="section right">
+	        <div className="cut" />
+	        <div className="cut2" />
+	        <div className="rightPanel">
+	          { pokeDataReady && <StatsComponent stats={pokeData.stats} types={pokeData.types} /> }
+	          { pokeMovesReady && <MovesComponent moves={pokeMoves} /> }
+	          <BlueButtons />
+	          { evoReady && <Evolution evo={evolution} /> }
+	        </div>
+	      </div>
 	    </Main>
 	  )
 	}
