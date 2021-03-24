@@ -19,7 +19,9 @@ export default class App extends React.Component {
       name: 'Pokémon',
       id: '--',
       height: '--',
-      weight: '--'
+      weight: '--',
+      types: [],
+      stats: []
     },
     pokeDataReady: false,
     pokeSpecies: {
@@ -180,7 +182,6 @@ export default class App extends React.Component {
             }
           } // END OF EVOLUTION CHAIN
         }
-        // this.setState({ dataReady: true })
       }
     } catch (err) {
       console.error(err)
@@ -249,7 +250,7 @@ export default class App extends React.Component {
 	        <div className="cut" />
 	        <div className="cut2" />
 	        <div className="rightPanel">
-	          { pokeDataReady && <StatsComponent stats={pokeData.stats} types={pokeData.types} /> }
+	          <StatsComponent stats={pokeData.stats} types={pokeData.types} ready={pokeDataReady} />
 	          { pokeMovesReady && <MovesComponent moves={pokeMoves} /> }
 	          <BlueButtons />
 	          { evoReady && <Evolution evo={evolution} /> }
