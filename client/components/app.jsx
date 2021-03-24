@@ -17,6 +17,7 @@ export default class App extends React.Component {
     pokeIndex: POKE_INDEX,
     pokeData: {},
     pokeSpecies: {},
+    pokeMoves: [],
     evoChain: {},
     dataReady: false
   }
@@ -38,13 +39,27 @@ export default class App extends React.Component {
       const response = await fetch(req)
       const pokeData = await response.json()
       if (pokeData) {
+        const len = pokeData.moves.length
+        const maxIndex = Math.min(10, len)
+        const pokeMoves = []
+        for (let i = 0; i < maxIndex; i++) {
+          const url = pokeData.moves[i].move.url
+          const resMoves = await fetch(url)
+          const dataMoves = await resMoves.json()
+          if (dataMoves) {
+            pokeMoves.push(dataMoves)
+          }
+        }
+
         this.setState({ pokeData: pokeData })
         const reqSpecies = pokeData.species.url
         const resSpecies = await fetch(reqSpecies)
         const pokeSpeciesData = await resSpecies.json()
         if (pokeSpeciesData) {
           this.setState({
+            pokeData: pokeData,
             pokeSpecies: pokeSpeciesData,
+            pokeMoves: pokeMoves,
             evoChain: pokeSpeciesData.evolution_chain.url,
             dataReady: true
           })
@@ -76,7 +91,7 @@ export default class App extends React.Component {
 	}
 
 	render() {
-	  const { pokeData, pokeSpecies, evoChain } = this.state
+	  const { pokeData, pokeSpecies, pokeMoves, evoChain } = this.state
 	  const badge = {
 	    isBaby: pokeSpecies.is_baby,
 	    isLegendary: pokeSpecies.is_legendary,
@@ -111,7 +126,7 @@ export default class App extends React.Component {
 					    <div className="cut2" />
 					    <div className="rightPanel">
 					      <StatsComponent stats={pokeData.stats} types={pokeData.types} />
-					      <MovesComponent moves={pokeData.moves} />
+					      <MovesComponent moves={pokeMoves} />
 					      <BlueButtons />
 					      <Evolution evo={evoChain} pokemon={pokeData.name} />
 					    </div>
