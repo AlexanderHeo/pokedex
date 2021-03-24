@@ -10,7 +10,7 @@ import Buttons from './ui/buttons';
 import TopFrame from './ui/topFrame';
 
 const POKEAPI_ROOT_URL = 'https://pokeapi.co/api/v2/pokemon/'
-const POKE_INDEX = 10
+const POKE_INDEX = 385
 
 export default class App extends React.Component {
   state = {
@@ -42,8 +42,7 @@ export default class App extends React.Component {
       const response = await fetch(url)
       const pokeData = await response.json()
       if (pokeData) {
-        // this.setState({ pokeData: pokeData })
-
+        const current = pokeData.name
         // fetch maximum 10 moves
         const len = pokeData.moves.length
         const maxIndex = Math.min(10, len)
@@ -134,7 +133,6 @@ export default class App extends React.Component {
                     }
                     if (dataThreePokemon) setThree.push(san)
 
-                    const current = pokeData.name
                     const evolution = { setOne, setTwo, setThree, current }
                     this.setState({
                       evolution: evolution,
@@ -143,6 +141,12 @@ export default class App extends React.Component {
                   }
                 })
               }
+            } else { // if no second evolves
+              const evolution = { setOne, current }
+              this.setState({
+                evolution: evolution,
+                evoReady: true
+              })
             }
           } // END OF EVOLUTION CHAIN
           this.setState({

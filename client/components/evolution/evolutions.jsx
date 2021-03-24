@@ -28,14 +28,21 @@ class Evolution extends Component {
 	doTheThing = () => {
 	  const { evo } = this.props
 	  const { setOne, setTwo, setThree } = evo
+	  let two = {}
+	  let three = {}
+	  let twoReady, threeReady, twoMulti, threeMulti
 
 	  const one = { ...setOne[0] }
-	  const two = { ...setTwo[0] }
-	  const three = { ...setThree[0] }
-
-	  let twoReady, threeReady
-	  if (setTwo[0]) twoReady = true
-	  if (setThree[0]) threeReady = true
+	  if (setTwo) {
+	    two = { ...setTwo[0] }
+	    twoReady = true
+	    if (setTwo.length > 1) twoMulti = true
+	  }
+	  if (setThree) {
+	    three = { ...setThree[0] }
+	    threeReady = true
+	    if (setThree.length > 1) threeMulti = true
+	  }
 
 	  this.setState({
 	    one: one,
@@ -43,8 +50,8 @@ class Evolution extends Component {
 	    three: three,
 	    twoReady: twoReady,
 	    threeReady: threeReady,
-	    twoMulti: setTwo.length > 1,
-	    threeMulti: setThree.length > 1,
+	    twoMulti: twoMulti,
+	    threeMulti: threeMulti,
 	    twoIndex: 0,
 	    threeIndex: 0
 	  })
@@ -81,11 +88,11 @@ class Evolution extends Component {
 	  let name2, name3, img2, img3
 	  const name1 = setOne[0].name
 	  const img1 = setOne[0].sprite
-	  if (setTwo.length) {
+	  if (setTwo) {
 	    name2 = setTwo[twoIndex].name
 	    img2 = setTwo[twoIndex].sprite
 	  }
-	  if (setThree.length) {
+	  if (setThree) {
 	    name3 = setThree[threeIndex].name
 	    img3 = setThree[threeIndex].sprite
 	  }
