@@ -251,7 +251,7 @@ export default class App extends React.Component {
 	        <div className="cut2" />
 	        <div className="rightPanel">
 	          <StatsComponent stats={pokeData.stats} types={pokeData.types} ready={pokeDataReady} />
-	          { pokeMovesReady && <MovesComponent moves={pokeMoves} /> }
+	          <MovesComponent moves={pokeMoves} ready={pokeMovesReady} />
 	          <BlueButtons />
 	          { evoReady && <Evolution evo={evolution} /> }
 	        </div>

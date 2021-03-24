@@ -10,7 +10,7 @@ class Moves extends Component {
 	}
 
 	componentDidMount() {
-	  this.doTheThing()
+	  if (this.props.ready) this.doTheThing()
 	}
 
 	componentDidUpdate = prevProps => {
@@ -18,6 +18,9 @@ class Moves extends Component {
 	    this.setState({
 	      move: this.props.moves[0]
 	    })
+	    this.doTheThing()
+	  }
+	  if (prevProps.ready !== this.props.ready) {
 	    this.doTheThing()
 	  }
 	}
@@ -55,41 +58,40 @@ class Moves extends Component {
 	  }
 	  return (
 	    <MovesContainer>
-	      {
-	        moveReady &&
-	  			<>
-	  			  <div className="windowContainer">
-	  			    <div className="window">
-	  			      <div className="moveContainer">
-	  			        <span className="name">{display}</span>
-	  			        <div className="move">
-	  			          <span className="moveName">Accuracy</span>
-	  			          <span className="moveStat">{move.accuracy || '---'}</span>
-	  			        </div>
-	  			        <div className="move">
-	  			          <span className="moveName">Power</span>
-	  			          <span className="moveStat">{move.power || '---'}</span>
-	  			        </div>
-	  			        <div className="move">
-	  			          <span className="moveName">P.P.</span>
-	  			          <span className="moveStat">{move.pp || '---'}</span>
-	  			        </div>
-	  			      </div>
-	  			      <div className="statContainer">
-	  			        <span className="type">{move.type.name.toUpperCase()}</span>
-	  			        <span className="damageClass">Damage Class: {move.damage_class.name.charAt(0).toUpperCase() + move.damage_class.name.slice(1)}</span>
-	  			        <div className="textContainer">
-	  			          <div>{moveFlavor}</div>
-	  			        </div>
-	  			      </div>
-	  			    </div>
-	  			  </div>
-	  			  <div className="buttonContainer">
-	  			    <button className="button" onClick={this.handleClick} name="up"><span className="iconify" data-icon="ant-design:caret-up-filled" data-inline="false"></span></button>
-	  			    <button className="button" onClick={this.handleClick} name="down"><span className="iconify" data-icon="ant-design:caret-down-filled" data-inline="false"></span></button>
-	  			  </div>
-	  			</>
-	      }
+	      <div className="windowContainer">
+	        <div className="window">
+	          <div className="moveContainer">
+	            <span className="name">{display}</span>
+	            <div className="move">
+	              <span className="moveName">Accuracy</span>
+	              { moveReady && <span className="moveStat">{move.accuracy || '---'}</span> }
+	            </div>
+	            <div className="move">
+	              <span className="moveName">Power</span>
+	              { moveReady && <span className="moveStat">{move.power || '---'}</span> }
+	            </div>
+	            <div className="move">
+	              <span className="moveName">P.P.</span>
+	              { moveReady && <span className="moveStat">{move.pp || '---'}</span> }
+	            </div>
+	          </div>
+	          <div className="statContainer">
+	            {
+	              moveReady && <>
+	                <span className="type">{move.type.name.toUpperCase()}</span>
+	                <span className="damageClass">Damage Class: {move.damage_class.name.charAt(0).toUpperCase() + move.damage_class.name.slice(1)}</span>
+	                <div className="textContainer">
+	                  <div>{moveFlavor}</div>
+	                </div>
+	              </>
+	            }
+	          </div>
+	        </div>
+	      </div>
+	      <div className="buttonContainer">
+	        <button className="button" onClick={this.handleClick} name="up"><span className="iconify" data-icon="ant-design:caret-up-filled" data-inline="false"></span></button>
+	        <button className="button" onClick={this.handleClick} name="down"><span className="iconify" data-icon="ant-design:caret-down-filled" data-inline="false"></span></button>
+	      </div>
 	    </MovesContainer>
 	  )
 	}
