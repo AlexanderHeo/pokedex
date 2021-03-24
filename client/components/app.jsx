@@ -22,7 +22,12 @@ export default class App extends React.Component {
       weight: '--'
     },
     pokeDataReady: false,
-    pokeSpecies: {},
+    pokeSpecies: {
+      flavor_text_entries: '',
+      generation: {
+        name: '--'
+      }
+    },
     pokeSpeciesReady: false,
     pokeMoves: [],
     pokeMovesReady: false,
@@ -225,11 +230,12 @@ export default class App extends React.Component {
 	        <div className="leftPanel">
 	          <div className="components">
 	            <ImageComponent sprites={pokeData.sprites} badge={badge} ready={pokeDataReady} />
-	            { pokeSpeciesReady && <Infotext
+	            <Infotext
 	              pokemon={pokeData}
 	              flavors={pokeSpecies.flavor_text_entries}
 	              generation={pokeSpecies.generation.name}
-	            /> }
+	              ready={pokeSpeciesReady}
+	            />
 	            <Buttons name={pokeData.name} id={pokeData.id} handleDpad={this.handleDpad}/>
 	          </div>
 	          <div className="middleHinge">

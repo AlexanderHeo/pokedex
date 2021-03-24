@@ -117,6 +117,7 @@ const Info = styled.div`
 		}
 		.textContainer {
 			width: 70%;
+			height: 76px;
 			position: relative;
 			color: lightgreen;
 			background-color: darkgreen;
