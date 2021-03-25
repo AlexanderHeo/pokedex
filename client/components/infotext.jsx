@@ -108,7 +108,7 @@ const Info = styled.div`
 			justify-content: space-around;
 			align-items: center;
 			.name {
-				width: 50%;
+				width: 47%;
 				font-size: 1.4rem;
 			}
 			.number {
