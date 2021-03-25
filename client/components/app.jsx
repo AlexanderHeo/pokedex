@@ -11,7 +11,7 @@ import Buttons from './ui/buttons';
 import TopFrame from './ui/topFrame';
 
 const POKEAPI_ROOT_URL = 'https://pokeapi.co/api/v2/pokemon/'
-const POKE_INDEX = 13
+const POKE_INDEX = 60
 const POKE_NAME = 'Pokémon'
 
 export default class App extends React.Component {
@@ -86,8 +86,7 @@ export default class App extends React.Component {
         this.setState({
           pokeData: pokeData,
           pokeDataReady: true,
-          current: pokeData.name,
-          ready: true
+          current: pokeData.name
         })
 
         // check for moves - necessary for missing Gen 8 data
@@ -138,13 +137,15 @@ export default class App extends React.Component {
               isLegendary: dataOneSpecies.is_legendary,
               isMythical: dataOneSpecies.is_mythical
             }
-            this.setState({
-              setOne: [ichi],
-              setOneReady: true
-            })
 
             // check for second evolution
-            if (dataEvo.chain.evolves_to[0]) {
+            if (!dataEvo.chain.evolves_to[0]) {
+              this.setState({
+                setOne: [ichi],
+                setOneReady: true,
+                ready: true
+              })
+            } else if (dataEvo.chain.evolves_to[0]) {
               // wait till the Promises.all() of the
               // mapped species fetch datas is fulfilled
               const secondEvoSpecies = await Promise.all(
@@ -165,6 +166,8 @@ export default class App extends React.Component {
                 if (secondEvoData) {
                   // set state for second evolution
                   this.setState({
+                    setOne: [ichi],
+                    setOneReady: true,
                     setTwo: {
                       data: secondEvoData,
                       species: secondEvoSpecies
@@ -174,7 +177,9 @@ export default class App extends React.Component {
                 }
               }
               // check for third evolution, and do same
-              if (dataEvo.chain.evolves_to[0].evolves_to[0]) {
+              if (!dataEvo.chain.evolves_to[0].evolves_to[0]) {
+                this.setState({ ready: true })
+              } else if (dataEvo.chain.evolves_to[0].evolves_to[0]) {
                 const thirdEvoSpecies = await Promise.all(
                   dataEvo.chain.evolves_to[0].evolves_to.map(async x => {
                     const thirdEvoSpeciesRes = await fetch(x.species.url)
@@ -194,7 +199,8 @@ export default class App extends React.Component {
                         data: thirdEvoData,
                         species: thirdEvoSpecies
                       },
-                      setThreeReady: true
+                      setThreeReady: true,
+                      ready: true
                     })
                   }
                 }
@@ -205,7 +211,7 @@ export default class App extends React.Component {
         }
       }
     } catch (err) {
-      console.error(err)
+      console.error('208:', err)
     }
   }
 
@@ -214,7 +220,7 @@ export default class App extends React.Component {
 	  const { name } = e.target
 	  if (name === 'up' || name === 'right') {
 	    this.pokeIndexUP()
-	  } else if (name === 'left' || name === 'down') {
+	  } else if (name === 'down' || name === 'left') {
 	    this.pokeIndexDOWN()
 	  }
 	}
@@ -233,8 +239,7 @@ export default class App extends React.Component {
 	  if (pokeIndex === 898) {
 	    this.setState({ pokeIndex: 1 })
 	  } else {
-	    const inc = pokeIndex + 1
-	    this.setState({ pokeIndex: inc })
+	    this.setState({ pokeIndex: pokeIndex + 1 })
 	  }
 	}
 
@@ -243,14 +248,13 @@ export default class App extends React.Component {
 	  if (pokeIndex === 0) {
 	    this.setState({ pokeIndex: 898 })
 	  } else {
-	    const dec = pokeIndex - 1
-	    this.setState({ pokeIndex: dec })
+	    this.setState({ pokeIndex: pokeIndex - 1 })
 	  }
 	}
 
 	resetState = () => {
 	  this.setState({
-	    pokeIndex: POKE_INDEX,
+	    pokeIndex: this.state.pokeIndex,
 	    pokeData: {
 	      name: POKE_NAME,
 	      id: '--',
@@ -307,7 +311,7 @@ export default class App extends React.Component {
 	    setOne, setOneReady,
 	    setTwo, setTwoReady,
 	    setThree, setThreeReady,
-	    current
+	    current, ready
 	  } = this.state
 	  const badge = {
 	    isBaby: pokeSpecies.is_baby,
@@ -327,7 +331,7 @@ export default class App extends React.Component {
 	              generation={pokeSpecies.generation.name}
 	              ready={pokeSpeciesReady}
 	            />
-	            <Buttons name={pokeData.name} id={pokeData.id} handleDpad={this.handleDpad}/>
+	            <Buttons name={pokeData.name} id={pokeData.id} handleDpad={this.handleDpad} ready={ready} />
 	          </div>
 	          <div className="middleHinge">
 	            <div className="hingeShort top"></div>
@@ -357,6 +361,7 @@ export default class App extends React.Component {
 	      <KeyboardEventHandler
 	        handleKeys={['up', 'down', 'left', 'right', 's']}
 	        onKeyEvent={(key, e) => this.handleKeyDown(key, e)}
+	        disabled={!ready}
 	      />
 	    </Main>
 	  )
