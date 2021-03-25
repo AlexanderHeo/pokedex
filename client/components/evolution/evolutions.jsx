@@ -3,112 +3,47 @@ import styled from 'styled-components'
 import Pokeball from '../../../server/public/images/Poke_Ball.png'
 
 class Evolution extends Component {
-	state = {
-	  one: {},
-	  two: {},
-	  three: {},
-	  twoMulti: false,
-	  threeMulti: false,
-	  twoReady: false,
-	  threeReady: false,
-	  twoIndex: 0,
-	  threeIndex: 0
-	}
 
-	componentDidMount = () => {
-	  this.doTheThing()
-	}
-
-	componentDidUpdate = prevProps => {
-	  if (prevProps !== this.props) {
-	    this.doTheThing()
-	  }
-	}
-
-	doTheThing = () => {
-	  const { evo } = this.props
-	  const { setOne, setTwo, setThree } = evo
-	  let two = {}
-	  let three = {}
-	  let twoReady, threeReady, twoMulti, threeMulti
-
-	  const one = { ...setOne[0] }
-	  if (setTwo) {
-	    two = { ...setTwo[0] }
-	    twoReady = true
-	    if (setTwo.length > 1) twoMulti = true
-	  }
-	  if (setThree) {
-	    three = { ...setThree[0] }
-	    threeReady = true
-	    if (setThree.length > 1) threeMulti = true
-	  }
-
-	  this.setState({
-	    one: one,
-	    two: two,
-	    three: three,
-	    twoReady: twoReady,
-	    threeReady: threeReady,
-	    twoMulti: twoMulti,
-	    threeMulti: threeMulti,
-	    twoIndex: 0,
-	    threeIndex: 0
-	  })
-	}
-
-	handleClick = e => {
-	  const name = e.target.name
-	  const { twoIndex, threeIndex } = this.state
-	  const { evo } = this.props
-	  const { setTwo, setThree } = evo
-
-	  if (name === 'leftArrow2') {
-	    if (twoIndex === 0) this.setState({ twoIndex: setTwo.length - 1 })
-	    else this.setState({ twoIndex: twoIndex - 1 })
-	  }
-	  if (name === 'rightArrow2') {
-	    if (twoIndex === setTwo.length - 1) this.setState({ twoIndex: 0 })
-	    else this.setState({ twoIndex: twoIndex + 1 })
-	  }
-	  if (name === 'leftArrow3') {
-	    if (threeIndex === 0) this.setState({ threeIndex: setThree.length - 1 })
-	    else this.setState({ threeIndex: threeIndex - 1 })
-	  }
-	  if (name === 'rightArrow3') {
-	    if (threeIndex === setThree.length - 1) this.setState({ threeIndex: 0 })
-	    else this.setState({ threeIndex: threeIndex + 1 })
-	  }
-	}
-
-	render() {
-	  const { evo } = this.props
-	  const { current, setOne, setTwo, setThree } = evo
-	  const { twoMulti, threeMulti, twoReady, threeReady, twoIndex, threeIndex } = this.state
-	  let name2, name3, img2, img3
-	  const name1 = setOne[0].name
-	  const img1 = setOne[0].sprite
-	  if (setTwo) {
-	    name2 = setTwo[twoIndex].name
-	    img2 = setTwo[twoIndex].sprite
-	  }
-	  if (setThree) {
-	    name3 = setThree[threeIndex].name
-	    img3 = setThree[threeIndex].sprite
-	  }
-	  let frame1 = 'evoFrame'
-	  let frame2 = 'evoFrame'
-	  let frame3 = 'evoFrame'
-	  if (current === name1) frame1 = 'evoFrame highlight'
-	  if (current === name2) frame2 = 'evoFrame highlight'
-	  if (current === name3) frame3 = 'evoFrame highlight'
-
+  render() {
+    const { setOne, setOneReady, setTwo, setTwoReady, setThree, setThreeReady, current } = this.props
+    let img1 = Pokeball
+    let img2 = Pokeball
+    let img3 = Pokeball
+    let name1 = '----'
+    let name2 = '----'
+    let name3 = '----'
+    let multi2 = false
+    let multi3 = false
+    let frame1 = 'evoFrame'
+    let frame2 = 'evoFrame'
+    let frame3 = 'evoFrame'
+    if (setOneReady) {
+      img1 = setOne[0].sprite
+      name1 = setOne[0].name
+    }
+    if (setTwoReady) {
+      img2 = setTwo.data[0].sprites.front_default
+      name2 = setTwo.data[0].name
+      if (setTwo.data.length > 1) {
+        multi2 = true
+      }
+    }
+    if (setThreeReady) {
+      img3 = setThree.data[0].sprites.front_default
+      name3 = setThree.data[0].name
+      if (setThree.data.length > 1) {
+        multi3 = true
+      }
+    }
+    if (name1 === current) frame1 = 'evoFrame highlight'
+    if (name2 === current) frame2 = 'evoFrame highlight'
+    if (name3 === current) frame3 = 'evoFrame highlight'
 	  return (
 	    <Evo>
 	      <div className='evoSection'>
 	        <div className={frame1}>
 	          {
-	            setOne.length
+	            setOne
 	              ? <>
 	                <img className="sprite" src={img1} />
 	                <span className="name">{name1}</span>
@@ -124,10 +59,10 @@ class Evolution extends Component {
 	      <div className='evoSection'>
 	        <div className={frame2}>
 	          {
-	            twoReady
+	            setTwoReady
 	              ? <>
 	                {
-	                  twoMulti &&
+	                  multi2 &&
   									<div className="multi twoMulti">
   									  <button className="arrow leftArrow"onClick={this.handleClick} name="leftArrow2"><span className="iconify" data-icon="ant-design:caret-left-filled" data-inline="false"></span></button>
   									  <button className="arrow rightArrow"onClick={this.handleClick} name="rightArrow2"><span className="iconify" data-icon="ant-design:caret-right-filled" data-inline="false"></span></button>
@@ -147,10 +82,10 @@ class Evolution extends Component {
 	      <div className='evoSection'>
 	        <div className={frame3} onClick={this.props.handleEvoClick}>
 	          {
-	            threeReady
+	            setThreeReady
 	              ? <>
 	                {
-	                  threeMulti &&
+	                  multi3 &&
   									<div className="multi threeMulti">
   									  <button className="arrow leftArrow" onClick={this.handleClick} name="leftArrow3"><span className="iconify" data-icon="ant-design:caret-left-filled" data-inline="false"></span></button>
   									  <button className="arrow rightArrow" onClick={this.handleClick} name="rightArrow3"><span className="iconify" data-icon="ant-design:caret-right-filled" data-inline="false"></span></button>
@@ -169,7 +104,7 @@ class Evolution extends Component {
 	      </div>
 	    </Evo>
 	  )
-	}
+  }
 }
 
 export default Evolution

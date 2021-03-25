@@ -10,13 +10,14 @@ import Buttons from './ui/buttons';
 import TopFrame from './ui/topFrame';
 
 const POKEAPI_ROOT_URL = 'https://pokeapi.co/api/v2/pokemon/'
-const POKE_INDEX = 226
+const POKE_INDEX = 13
+const POKE_NAME = 'Pokémon'
 
 export default class App extends React.Component {
   state = {
     pokeIndex: POKE_INDEX,
     pokeData: {
-      name: 'Pokémon',
+      name: POKE_NAME,
       id: '--',
       height: '--',
       weight: '--',
@@ -31,11 +32,34 @@ export default class App extends React.Component {
       }
     },
     pokeSpeciesReady: false,
-    pokeMoves: [],
+    pokeMoves: [
+      {
+        name: 'N/A',
+        accuracy: '--',
+        power: '--',
+        pp: '--',
+        flavor_text_entries: [
+          {
+            flavor_text: '------',
+            language: 'en'
+          }
+        ],
+        type: {
+          name: '--'
+        },
+        damage_class: {
+          name: '--'
+        }
+      }
+    ],
     pokeMovesReady: false,
-    evolution: {},
-    evoReady: false,
-    defaultName: 'Pokemon'
+    setOne: [],
+    setOneReady: false,
+    setTwo: [],
+    setTwoReady: false,
+    setThree: [],
+    setThreeReady: false,
+    current: POKE_NAME
   }
 
   componentDidMount = () => {
@@ -49,8 +73,7 @@ export default class App extends React.Component {
 	}
 
   handlePokemonChange = async () => {
-    this.setState({ dataReady: false })
-    const { pokeIndex, defaultName } = this.state
+    const { pokeIndex } = this.state
     try {
 
       // fetch pokemon info
@@ -60,24 +83,26 @@ export default class App extends React.Component {
       if (pokeData) {
         this.setState({
           pokeData: pokeData,
-          pokeDataReady: true
+          pokeDataReady: true,
+          current: pokeData.name
         })
-        const current = pokeData.name || defaultName
-        // fetch maximum 10 moves
-        const len = pokeData.moves.length
-        const maxIndex = Math.min(10, len)
-        const pokeMoves = []
-        for (let i = 0; i < maxIndex; i++) {
-          const urlMoves = pokeData.moves[i].move.url
-          const resMoves = await fetch(urlMoves)
-          const dataMoves = await resMoves.json()
-          if (dataMoves) pokeMoves.push(dataMoves)
+
+        // check for moves - necessary for missing Gen 8 data
+        if (pokeData.moves[0]) {
+          // fetch moves
+          const pokeMoves = await Promise.all(
+            pokeData.moves.map(async x => {
+              const moveRes = await fetch(x.move.url)
+              return moveRes.json()
+            })
+          )
+          if (pokeMoves) {
+            this.setState({
+              pokeMoves: pokeMoves,
+              pokeMovesReady: true
+            })
+          }
         }
-        this.setState({
-          pokeMoves: pokeMoves,
-          pokeMovesReady: true
-        })
-        // fetch species info
         const urlSpecies = pokeData.species.url
         const resSpecies = await fetch(urlSpecies)
         const pokeSpeciesData = await resSpecies.json()
@@ -86,20 +111,19 @@ export default class App extends React.Component {
             pokeSpecies: pokeSpeciesData,
             pokeSpeciesReady: true
           })
+
           // EVOLUTION CHAIN START
           // fetch evo chain info
           const urlEvo = pokeSpeciesData.evolution_chain.url
           const resEvo = await fetch(urlEvo)
           const dataEvo = await resEvo.json()
-          const setOne = []
-          const setTwo = []
-          const setThree = []
+
           // fetch first evo species info
           const urlOneSpecies = dataEvo.chain.species.url
           const resOneSpecies = await fetch(urlOneSpecies)
           const dataOneSpecies = await resOneSpecies.json()
-
           if (dataOneSpecies) {
+
             // fetch first evo pokemon info
             const resOnePokemon = await fetch(`${POKEAPI_ROOT_URL}${dataOneSpecies.id}`)
             const dataOnePokemon = await resOnePokemon.json()
@@ -111,76 +135,70 @@ export default class App extends React.Component {
               isLegendary: dataOneSpecies.is_legendary,
               isMythical: dataOneSpecies.is_mythical
             }
-            setOne.push(ichi)
-            // check for second evolution, map through all
+            this.setState({
+              setOne: [ichi],
+              setOneReady: true
+            })
+
+            // check for second evolution
             if (dataEvo.chain.evolves_to[0]) {
-              dataEvo.chain.evolves_to.map(async x => {
-
-                // fetch second evo species info
-                const urlTwoSpecies = x.species.url
-                const resTwoSpecies = await fetch(urlTwoSpecies)
-                const dataTwoSpecies = await resTwoSpecies.json()
-                if (dataTwoSpecies) {
-                  // fetch second evo pokemon info
-                  const resTwoPokemon = await fetch(`${POKEAPI_ROOT_URL}${dataTwoSpecies.id}`)
-                  const dataTwoPokemon = await resTwoPokemon.json()
-                  if (dataTwoPokemon) {
-                    const nii = {
-                      name: dataTwoPokemon.name,
-                      sprite: dataTwoPokemon.sprites.front_default,
-                      isBaby: dataTwoSpecies.is_baby,
-                      isLegendary: dataTwoSpecies.is_legendary,
-                      isMythical: dataTwoSpecies.is_mythical
-                    }
-                    setTwo.push(nii)
-                  }
+              // wait till the Promises.all() of the
+              // mapped species fetch datas is fulfilled
+              const secondEvoSpecies = await Promise.all(
+                dataEvo.chain.evolves_to.map(async x => {
+                  const secondEvoSpeciesResponse = await fetch(x.species.url)
+                  return secondEvoSpeciesResponse.json()
+                })
+              )
+              if (secondEvoSpecies) {
+                // wait till the Promises.all() of the
+                // mapped pokeman fetch datas is fulfilled
+                const secondEvoData = await Promise.all(
+                  secondEvoSpecies.map(async x => {
+                    const secondEvoDataResponse = await fetch(`${POKEAPI_ROOT_URL}${x.id}`)
+                    return secondEvoDataResponse.json()
+                  })
+                )
+                if (secondEvoData) {
+                  // set state for second evolution
+                  this.setState({
+                    setTwo: {
+                      data: secondEvoData,
+                      species: secondEvoSpecies
+                    },
+                    setTwoReady: true
+                  })
                 }
-              })
-
-              // check for third evolution, map through all
+              }
+              // check for third evolution, and do same
               if (dataEvo.chain.evolves_to[0].evolves_to[0]) {
-                dataEvo.chain.evolves_to[0].evolves_to.map(async x => {
-
-                  // fetch third evo species info
-                  const urlThreeSpecies = x.species.url
-                  const resThreeSpecies = await fetch(urlThreeSpecies)
-                  const dataThreeSpecies = await resThreeSpecies.json()
-                  if (dataThreeSpecies) {
-
-                    // fetch third evo pokemon info
-                    const resThreePokemon = await fetch(`${POKEAPI_ROOT_URL}${dataThreeSpecies.id}`)
-                    const dataThreePokemon = await resThreePokemon.json()
-                    const san = {
-                      name: dataThreePokemon.name,
-                      sprite: dataThreePokemon.sprites.front_default,
-                      isBaby: dataThreeSpecies.is_baby,
-                      isLegendary: dataThreeSpecies.is_legendary,
-                      isMythical: dataThreeSpecies.is_mythical
-                    }
-                    if (dataThreePokemon) setThree.push(san)
-
-                    const evolution = { setOne, setTwo, setThree, current }
+                const thirdEvoSpecies = await Promise.all(
+                  dataEvo.chain.evolves_to[0].evolves_to.map(async x => {
+                    const thirdEvoSpeciesRes = await fetch(x.species.url)
+                    return thirdEvoSpeciesRes.json()
+                  })
+                )
+                if (thirdEvoSpecies) {
+                  const thirdEvoData = await Promise.all(
+                    thirdEvoSpecies.map(async x => {
+                      const thirdEvoDataRes = await fetch(`${POKEAPI_ROOT_URL}${x.id}`)
+                      return thirdEvoDataRes.json()
+                    })
+                  )
+                  if (thirdEvoData) {
                     this.setState({
-                      evolution: evolution,
-                      evoReady: true
+                      setThree: {
+                        data: thirdEvoData,
+                        species: thirdEvoSpecies
+                      },
+                      setThreeReady: true
                     })
                   }
-                })
-              } else { // if no third evolution
-                const { evolution } = { setOne, setTwo, current }
-                this.setState({
-                  evolution: evolution,
-                  evoReady: true
-                })
+                }
               }
-            } else { // if no second evolution
-              const evolution = { setOne, current }
-              this.setState({
-                evolution: evolution,
-                evoReady: true
-              })
             }
-          } // END OF EVOLUTION CHAIN
+          }
+          // END OF EVOLUTION CHAIN
         }
       }
     } catch (err) {
@@ -210,14 +228,13 @@ export default class App extends React.Component {
 
 	render() {
 	  const {
-	    pokeData,
-	    pokeDataReady,
-	    pokeSpecies,
-	    pokeSpeciesReady,
-	    pokeMoves,
-	    pokeMovesReady,
-	    evolution,
-	    evoReady
+	    pokeData, pokeDataReady,
+	    pokeSpecies, pokeSpeciesReady,
+	    pokeMoves, pokeMovesReady,
+	    setOne, setOneReady,
+	    setTwo, setTwoReady,
+	    setThree, setThreeReady,
+	    current
 	  } = this.state
 	  const badge = {
 	    isBaby: pokeSpecies.is_baby,
@@ -251,9 +268,20 @@ export default class App extends React.Component {
 	        <div className="cut2" />
 	        <div className="rightPanel">
 	          <StatsComponent stats={pokeData.stats} types={pokeData.types} ready={pokeDataReady} />
-	          <MovesComponent moves={pokeMoves} ready={pokeMovesReady} />
+	          {
+	            pokeMovesReady &&
+							<MovesComponent moves={pokeMoves} ready={pokeMovesReady} />
+	          }
 	          <BlueButtons />
-	          { evoReady && <Evolution evo={evolution} /> }
+	          <Evolution
+	            setOne={setOne}
+	            setOneReady={setOneReady}
+	            setTwo={setTwo}
+	            setTwoReady={setTwoReady}
+	            setThree={setThree}
+	            setThreeReady={setThreeReady}
+	            current={current}
+	          />
 	        </div>
 	      </div>
 	    </Main>
