@@ -1,4 +1,5 @@
 import React from 'react';
+import KeyboardEventHandler from 'react-keyboard-event-handler';
 import styled from 'styled-components';
 import Evolution from './evolution/evolutions';
 import ImageComponent from './image';
@@ -59,7 +60,8 @@ export default class App extends React.Component {
     setTwoReady: false,
     setThree: [],
     setThreeReady: false,
-    current: POKE_NAME
+    current: POKE_NAME,
+    ready: false
   }
 
   componentDidMount = () => {
@@ -84,7 +86,8 @@ export default class App extends React.Component {
         this.setState({
           pokeData: pokeData,
           pokeDataReady: true,
-          current: pokeData.name
+          current: pokeData.name,
+          ready: true
         })
 
         // check for moves - necessary for missing Gen 8 data
@@ -207,23 +210,93 @@ export default class App extends React.Component {
   }
 
 	handleDpad = e => {
+	  this.resetState()
 	  const { name } = e.target
-	  const { pokeIndex } = this.state
 	  if (name === 'up' || name === 'right') {
-	    if (pokeIndex === 898) {
-	      this.setState({ pokeIndex: 1 })
-	    } else {
-	      const inc = pokeIndex + 1
-	      this.setState({ pokeIndex: inc })
-	    }
+	    this.pokeIndexUP()
 	  } else if (name === 'left' || name === 'down') {
-	    if (pokeIndex === 0) {
-	      this.setState({ pokeIndex: 898 })
-	    } else {
-	      const dec = pokeIndex - 1
-	      this.setState({ pokeIndex: dec })
-	    }
+	    this.pokeIndexDOWN()
 	  }
+	}
+
+	handleKeyDown = (key, e) => {
+	  this.resetState()
+	  if (key === 'up' || key === 'right') {
+	    this.pokeIndexUP()
+	  } else if (key === 'down' || key === 'left') {
+	    this.pokeIndexDOWN()
+	  }
+	}
+
+	pokeIndexUP = () => {
+	  const { pokeIndex } = this.state
+	  if (pokeIndex === 898) {
+	    this.setState({ pokeIndex: 1 })
+	  } else {
+	    const inc = pokeIndex + 1
+	    this.setState({ pokeIndex: inc })
+	  }
+	}
+
+	pokeIndexDOWN = () => {
+	  const { pokeIndex } = this.state
+	  if (pokeIndex === 0) {
+	    this.setState({ pokeIndex: 898 })
+	  } else {
+	    const dec = pokeIndex - 1
+	    this.setState({ pokeIndex: dec })
+	  }
+	}
+
+	resetState = () => {
+	  this.setState({
+	    pokeIndex: POKE_INDEX,
+	    pokeData: {
+	      name: POKE_NAME,
+	      id: '--',
+	      height: '--',
+	      weight: '--',
+	      types: [],
+	      stats: []
+	    },
+	    pokeDataReady: false,
+	    pokeSpecies: {
+	      flavor_text_entries: '',
+	      generation: {
+	        name: '--'
+	      }
+	    },
+	    pokeSpeciesReady: false,
+	    pokeMoves: [
+	      {
+	        name: 'N/A',
+	        accuracy: '--',
+	        power: '--',
+	        pp: '--',
+	        flavor_text_entries: [
+	          {
+	            flavor_text: '------',
+	            language: 'en'
+	          }
+	        ],
+	        type: {
+	          name: '--'
+	        },
+	        damage_class: {
+	          name: '--'
+	        }
+	      }
+	    ],
+	    pokeMovesReady: false,
+	    setOne: [],
+	    setOneReady: false,
+	    setTwo: [],
+	    setTwoReady: false,
+	    setThree: [],
+	    setThreeReady: false,
+	    current: POKE_NAME,
+	    ready: false
+	  })
 	}
 
 	render() {
@@ -268,10 +341,7 @@ export default class App extends React.Component {
 	        <div className="cut2" />
 	        <div className="rightPanel">
 	          <StatsComponent stats={pokeData.stats} types={pokeData.types} ready={pokeDataReady} />
-	          {
-	            pokeMovesReady &&
-							<MovesComponent moves={pokeMoves} ready={pokeMovesReady} />
-	          }
+	          <MovesComponent moves={pokeMoves} ready={pokeMovesReady} />
 	          <BlueButtons />
 	          <Evolution
 	            setOne={setOne}
@@ -284,6 +354,10 @@ export default class App extends React.Component {
 	          />
 	        </div>
 	      </div>
+	      <KeyboardEventHandler
+	        handleKeys={['up', 'down', 'left', 'right', 's']}
+	        onKeyEvent={(key, e) => this.handleKeyDown(key, e)}
+	      />
 	    </Main>
 	  )
 	}
