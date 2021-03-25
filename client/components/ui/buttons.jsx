@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Buttons = ({ name, id, handleDpad }) => {
+const Buttons = ({ name, id, handleDpad, ready }) => {
   name = `${name.charAt(0).toUpperCase()}${name.slice(1)}`
   return (
     <Container>
@@ -18,12 +18,12 @@ const Buttons = ({ name, id, handleDpad }) => {
       </div>
       <div className='dpad'>
         <div className="sectionD">
-          <button className="direction upD" onClick={handleDpad} name="up"><span className="iconify" data-icon="bi:caret-up" data-inline="false" transform="rotate(-45)"></span></button>
-          <button className="direction rightD" onClick={handleDpad} name="right"><span className="iconify" data-icon="bi:caret-right" data-inline="false"></span></button>
+          <button className="direction upD" onClick={handleDpad} name="up" disabled={!ready}><span className="iconify" data-icon="bi:caret-up" data-inline="false" transform="rotate(-45)"></span></button>
+          <button className="direction rightD" onClick={handleDpad} name="right" disabled={!ready}><span className="iconify" data-icon="bi:caret-right" data-inline="false"></span></button>
         </div>
         <div className="sectionD">
-          <button className="direction leftD" onClick={handleDpad} name="left"><span className="iconify" data-icon="bi:caret-left" data-inline="false"></span></button>
-          <button className="direction downD" onClick={handleDpad} name="down"><span className="iconify" data-icon="bi:caret-down" data-inline="false"></span></button>
+          <button className="direction leftD" onClick={handleDpad} name="left" disabled={!ready}><span className="iconify" data-icon="bi:caret-left" data-inline="false"></span></button>
+          <button className="direction downD" onClick={handleDpad} name="down" disabled={!ready}><span className="iconify" data-icon="bi:caret-down" data-inline="false"></span></button>
         </div>
       </div>
     </Container>
