@@ -157,6 +157,9 @@ const Container = styled.div`
 				display: flex;
 				align-items: center;
 			}
+			.pokename {
+				pointer-events: none;
+			}
 			.no {
 				display: flex;
 				.pokenum {
@@ -200,6 +203,7 @@ const Container = styled.div`
 				position: relative;
 				border: 1px solid black;
 				background-color: transparent;
+				cursor: pointer;
 				box-shadow: 3px 1px 4px black;
 				.iconify {
 					display: flex;
