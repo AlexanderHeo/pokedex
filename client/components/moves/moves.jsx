@@ -10,14 +10,13 @@ class Moves extends Component {
 	}
 
 	componentDidMount() {
-	  if (this.props.ready) this.doTheThing()
+	  if (this.props.ready) {
+	    this.doTheThing()
+	  }
 	}
 
 	componentDidUpdate = prevProps => {
 	  if (prevProps.moves !== this.props.moves) {
-	    this.setState({
-	      move: this.props.moves[0]
-	    })
 	    this.doTheThing()
 	  }
 	  if (prevProps.ready !== this.props.ready) {
@@ -46,7 +45,7 @@ class Moves extends Component {
 
 	render() {
 	  const { move, moveFlavor, moveReady } = this.state
-	  let display
+	  let display = '----'
 	  if (moveReady) {
 	    const a = move.name
 	    if (a.includes('-')) {
@@ -115,6 +114,7 @@ const MovesContainer = styled.div`
 		font-family: 'VT323', monospace;
 		.window {
 			width: 90%;
+			height: 105px;
 			display: flex;
 			border: 1px solid black;
 			border-radius: 0.3rem;
