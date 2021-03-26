@@ -155,6 +155,7 @@ const Evo = styled.div`
 	border-radius: 0.3rem;
 	background-color: gainsboro;
 	margin: 1rem auto;
+	pointer-events: none;
 	.evoSection {
 		width: calc(100% / 3);
 		height: 150px;

@@ -74,6 +74,7 @@ const Info = styled.div`
 	position: relative;
 	border-radius: 0.3rem;
 	margin: 1rem 0;
+	pointer-events: none;
 	z-index: 2;
 	.window {
 		width: 90%;

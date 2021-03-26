@@ -37,7 +37,7 @@ const Stats = styled.div`
 	position: relative;
 	margin: 20px auto;
 	border-radius: 0.3rem;
-
+	pointer-events: none;
 	.typesContainer {
 		width: 38%;
 		position: relative;

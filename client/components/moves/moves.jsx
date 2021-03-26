@@ -106,6 +106,7 @@ const MovesContainer = styled.div`
 	border-radius: 0.3rem;
 	margin: 0 auto;
 	background-color: gainsboro;
+	pointer-events: none;
 	.windowContainer {
 		width: 85%;
 		display: flex;
