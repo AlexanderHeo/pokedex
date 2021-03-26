@@ -3,56 +3,51 @@ import styled from 'styled-components'
 
 class Moves extends Component {
 	state = {
-	  move: {},
-	  moveReady: false,
-	  index: 0,
-	  moveFlavor: ''
+	  movesIndex: 0
 	}
 
-	componentDidMount() {
-	  if (this.props.ready) {
-	    this.doTheThing()
-	  }
-	}
-
-	componentDidUpdate = prevProps => {
-	  if (prevProps.moves !== this.props.moves) {
-	    this.doTheThing()
-	  }
-	  if (prevProps.ready !== this.props.ready) {
-	    this.doTheThing()
-	  }
-	}
-
-	doTheThing = () => {
+	handleClick = e => {
+	  const { movesIndex } = this.state
 	  const { moves } = this.props
-	  let flav
-	  let i = 0
-	  while (i < moves.length) {
-	    if (moves[0].flavor_text_entries[i].language.name === 'en') {
-	      flav = moves[0].flavor_text_entries[i].flavor_text
-	      break
-	    } else {
-	      i++
-	    }
+	  const name = e.target.name
+	  if (name === 'up') {
+	    if (movesIndex === moves.length - 1) this.setState({ movesIndex: 0 })
+	    else this.setState({ movesIndex: movesIndex + 1 })
 	  }
-	  this.setState({
-	    move: this.props.moves[0],
-	    moveFlavor: flav,
-	    moveReady: true
-	  })
+	  if (name === 'down') {
+	    if (movesIndex === 0) this.setState({ movesIndex: moves.length - 1 })
+	    else this.setState({ movesIndex: movesIndex - 1 })
+	  }
 	}
 
 	render() {
-	  const { move, moveFlavor, moveReady } = this.state
-	  let display = '----'
-	  if (moveReady) {
-	    const a = move.name
-	    if (a.includes('-')) {
-	      const ar = a.split('-')
-	      display = `${ar[0].charAt(0).toUpperCase()}${ar[0].slice(1)}-${ar[1].charAt(0).toUpperCase()}${ar[1].slice(1)}`
-	    } else {
-	      display = `${a.charAt(0).toUpperCase()}${a.slice(1)}`
+	  let dsp = '----'
+	  let acc = '--'
+	  let pow = '--'
+	  let pp = '--'
+	  let typ = '----'
+	  let dmg = ''
+	  let flv = ''
+	  const { moves, ready } = this.props
+	  const { movesIndex } = this.state
+	  if (ready) {
+	    const n = moves[movesIndex].name
+	    const t = moves[movesIndex].type.name
+	    const d = moves[movesIndex].damage_class.name
+	    dsp = `${n.charAt(0).toUpperCase()}${n.slice(1)}`
+	    acc = moves[movesIndex].accuracy
+	    pow = moves[movesIndex].power
+	    pp = moves[movesIndex].pp
+	    typ = `${t.charAt(0).toUpperCase()}${t.slice(1)}`
+	    dmg = `${d.charAt(0).toUpperCase()}${d.slice(1)}`
+	    let i = 0
+	    while (i < moves.length) {
+	      if (moves[movesIndex].flavor_text_entries[i].language.name === 'en') {
+	        flv = moves[movesIndex].flavor_text_entries[i].flavor_text
+	        break
+	      } else {
+	        i++
+	      }
 	    }
 	  }
 	  return (
@@ -60,27 +55,27 @@ class Moves extends Component {
 	      <div className="windowContainer">
 	        <div className="window">
 	          <div className="moveContainer">
-	            <span className="name">{display}</span>
+	            <span className="name">{dsp}</span>
 	            <div className="move">
 	              <span className="moveName">Accuracy</span>
-	              { moveReady && <span className="moveStat">{move.accuracy || '---'}</span> }
+	              { ready && <span className="moveStat">{acc}</span> }
 	            </div>
 	            <div className="move">
 	              <span className="moveName">Power</span>
-	              { moveReady && <span className="moveStat">{move.power || '---'}</span> }
+	              { ready && <span className="moveStat">{pow}</span> }
 	            </div>
 	            <div className="move">
 	              <span className="moveName">P.P.</span>
-	              { moveReady && <span className="moveStat">{move.pp || '---'}</span> }
+	              { ready && <span className="moveStat">{pp}</span> }
 	            </div>
 	          </div>
 	          <div className="statContainer">
 	            {
-	              moveReady && <>
-	                <span className="type">{move.type.name.toUpperCase()}</span>
-	                <span className="damageClass">Damage Class: {move.damage_class.name.charAt(0).toUpperCase() + move.damage_class.name.slice(1)}</span>
+	              ready && <>
+	                <span className="type">{typ}</span>
+	                <span className="damageClass">Damage Class: {dmg}</span>
 	                <div className="textContainer">
-	                  <div>{moveFlavor}</div>
+	                  <div>{flv}</div>
 	                </div>
 	              </>
 	            }
@@ -179,6 +174,14 @@ const MovesContainer = styled.div`
 			width: 40px;
 			height: 40px;
 			margin: 0.2rem;
+			pointer-events: initial;
+			cursor: pointer;
+		}
+		.button:hover {
+			background: rgb(239,13,36);
+			background: linear-gradient(30deg, rgba(239,13,36,1) 25%, rgba(249,162,171,1) 50%, rgba(239,13,36,1) 75%);
+			transform: scale(1.2);
+			transition: transform 0.2s ease;
 		}
 		.iconify {
 			font-size: 1.5rem;
