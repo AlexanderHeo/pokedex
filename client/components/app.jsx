@@ -259,7 +259,8 @@ export default class App extends React.Component {
 	  } else if (id < 1 || id > 898) {
 	    this.setState({ errorMessage: 'Pokédex Index must be between 1 and 898.' })
 	  }	else {
-	    this.setState({ pokeIndex: id })
+	    this.resetState()
+	    this.setState({ pokeIndex: parseInt(id) })
 	  }
 	}
 
