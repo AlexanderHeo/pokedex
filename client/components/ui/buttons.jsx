@@ -172,6 +172,10 @@ const Container = styled.div`
 				}
 			}
 		}
+		.window:hover {
+			transform: scale(1.2);
+			transition: transform 0.2s ease;
+		}
 	}
 	.dpad {
 		width: 80px;
@@ -208,6 +212,7 @@ const Container = styled.div`
 			}
 			.direction:hover {
 				transform: scale(1.2);
+				transition: transform 0.4 ease;
 				z-index: 10;
 			}
 			.direction:active {
@@ -260,6 +265,6 @@ const Container = styled.div`
 	}
 	.dpad:hover {
 		transform: scale(1.1) rotate(45deg);
-		transition: 0.1s ease forwards;
+		transition: 0.4s ease forwards;
 	}
 `
