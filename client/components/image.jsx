@@ -152,18 +152,7 @@ class ImageComponent extends Component {
 	        </div>
 	      </div>
 	      <div className="imageButtons">
-
 	        <div className="yellowButton" />
-
-	        {/* <div className="shinyButtonContainer">
-	          <button className={
-	            this.state.shiny
-	              ? 'shinyButton shiny'
-	              : 'shinyButton'} onClick={this.handleClick} name="shiny">
-							Shiny
-	          </button>
-	        </div> */}
-
 	        <div className="grillContainer">
 	          <div className="grillLine"/>
 	          <div className="grillLine"/>
