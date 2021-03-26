@@ -331,14 +331,14 @@ const Image = styled.div`
 		right: 44%;
 	} */
 	.frame:hover {
-		overflow: initial;
+		/* overflow: initial; */
 		img {
 			background: rgb(165,201,253);
 			background: linear-gradient(30deg, rgba(165,201,253,1) 21%, rgba(189,215,238,1) 27%, rgba(165,201,253,1) 33%, rgba(165,201,253,1) 66%, rgba(189,215,238,1) 72%, rgba(165,201,253,1) 78%);
-			border: 5px double black;
+			/* border: 5px double black;
 			border-radius: 44px;
 			z-index: 1;
-			transform: scale(1.15);
+			transform: scale(1.15); */
 		}
 		.shiny {
 			background: rgb(222,222,222);

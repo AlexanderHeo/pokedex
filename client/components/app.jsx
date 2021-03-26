@@ -1,6 +1,7 @@
 import React from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import styled from 'styled-components';
+import Pokedex from '../../server/public/images/Pokedex_logo.png';
 import Evolution from './evolution/evolutions';
 import ImageComponent from './image';
 import Infotext from './infotext';
@@ -341,6 +342,9 @@ export default class App extends React.Component {
 	        <TopFrame />
 	        <div className="leftPanel">
 	          <div className="components">
+	            <div className="mobileHeader">
+	              <img src={Pokedex} alt="Pokedex logo"/>
+	            </div>
 	            <ImageComponent sprites={pokeData.sprites} badge={badge} ready={pokeDataReady} />
 	            <Infotext
 	              pokemon={pokeData}
@@ -407,6 +411,9 @@ const Main = styled.div`
 	justify-content: center;
 	color: darkgreen;
 	margin: 5rem;
+	.mobileHeader {
+		display: none;
+	}
 	.left {
 		display: flex;
 		flex-flow: column;
@@ -494,31 +501,50 @@ const Main = styled.div`
 	}
 
 	// Media Queries
-	@media(max-width: 900px) {
+	@media(max-width: 900px) and (orientation: portrait) {
 		transform: scale(0.9);
 		margin: 1rem 0;
 	}
-	@media(max-width: 809px) {
+	@media(max-width: 809px) and (orientation: portrait) {
 		transform: scale(0.8);
 		margin: -2rem;
 	}
-	@media(max-width: 720px) {
+	@media(max-width: 720px) and (orientation: portrait) {
 		transform: scale(0.7);
 		margin: -6.4rem 0;
 	}
-	@media(max-width: 629px) {
+	@media(max-width: 629px) and (orientation: portrait) {
 		transform: scale(0.6);
 		margin: -6rem 0;
 	}
-	@media(max-width: 542px) {
+	@media(max-width: 542px) and (orientation: portrait) {
 		transform: scale(0.5);
 		margin: -10rem 0;
+		.mobileHeader {
+			display: none;
+		}
+		.left .cut {
+			bottom: -11px;
+		}
+		.right .cut {
+			top: -49px;
+		}
+		.right .cut2 {
+			top: -45px;
+		}
 	}
 	@media(max-width: 446px) and (orientation: portrait) {
-		width: 100%;
 		flex-flow: column;
 		margin: 0;
 		transform: scale(1);
+		.mobileHeader {
+			display: block;
+			text-align: center;
+			margin: 0.5rem 0;
+			img {
+				width: 100%;
+			}
+		}
 		.left {
 			border: 0;
 			justify-content: center;
