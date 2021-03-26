@@ -46,12 +46,7 @@ class Evolution extends Component {
 	    setThreeReady,
 	    current
 	  } = this.props
-	  let img1 = Pokeball
-	  let img2 = Pokeball
-	  let img3 = Pokeball
-	  let name1 = '----'
-	  let name2 = '----'
-	  let name3 = '----'
+	  let img1, img2, img3, name1, name2, name3
 	  let multi2 = false
 	  let multi3 = false
 	  let frame1 = 'evoFrame'
@@ -83,7 +78,7 @@ class Evolution extends Component {
 	      <div className='evoSection'>
 	        <div className={frame1}>
 	          {
-	            setOne
+	            setOneReady
 	              ? <>
 	                <img className="sprite" src={img1} />
 	                <span className="name">{name1}</span>
