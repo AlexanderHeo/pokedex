@@ -155,7 +155,6 @@ const Evo = styled.div`
 	border-radius: 0.3rem;
 	background-color: gainsboro;
 	margin: 1rem auto;
-	pointer-events: none;
 	.evoSection {
 		width: calc(100% / 3);
 		height: 150px;
@@ -214,6 +213,9 @@ const Evo = styled.div`
 					outline: none;
 				}
 			}
+		}
+		.name {
+			pointer-events: none;
 		}
 		.highlight {
 			box-shadow: inset 10px 10px 30px gold, inset -10px -10px 30px gold;
