@@ -392,6 +392,14 @@ export default class App extends React.Component {
 	  )
 	}
 }
+// ? **********************************
+// ? **********************************
+// ? **********************************
+// ? **********************************
+// ? **********************************
+// ? **********************************
+// ? **********************************
+// ? **********************************
 
 const Main = styled.div`
 	font-family: 'VT323', monospace;
@@ -482,6 +490,63 @@ const Main = styled.div`
 		}
 		.rightPanel {
 			margin: 0.7rem 0.7rem 0.7rem 1rem;
+		}
+	}
+
+	// Media Queries
+	@media(max-width: 900px) {
+		transform: scale(0.9);
+		margin: 1rem 0;
+	}
+	@media(max-width: 809px) {
+		transform: scale(0.8);
+		margin: -2rem;
+	}
+	@media(max-width: 720px) {
+		transform: scale(0.7);
+		margin: -6.4rem 0;
+	}
+	@media(max-width: 629px) {
+		transform: scale(0.6);
+		margin: -6rem 0;
+	}
+	@media(max-width: 542px) {
+		transform: scale(0.5);
+		margin: -10rem 0;
+	}
+	@media(max-width: 446px) and (orientation: portrait) {
+		width: 100%;
+		flex-flow: column;
+		margin: 0;
+		transform: scale(1);
+		.left {
+			border: 0;
+			justify-content: center;
+			.leftPanel {
+				width: auto;
+				margin: 0 0 0 0;
+				.components {
+					padding: 0.5rem;
+					box-shadow: none;
+				}
+				.middleHinge {
+					display: none;
+				}
+			}
+		}
+		.right {
+			align-self: revert;
+			border: 0;
+			padding: 0 0.5rem;
+			.cut {
+				display: none;
+			}
+			.cut2 {
+				display: none;
+			}
+			.rightPanel {
+				margin: 0;
+			}
 		}
 	}
 `

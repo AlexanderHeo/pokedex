@@ -99,4 +99,7 @@ const Frame = styled.div`
 		background-color: #ef0d24;
 		border-left: 1px solid black;
 	}
+	@media(max-width: 446px) and (orientation: portrait) {
+		display: none;
+	}
 `

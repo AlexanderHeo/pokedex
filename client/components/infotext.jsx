@@ -127,4 +127,13 @@ const Info = styled.div`
 			overflow-y: hidden;
 		}
 	}
+	@media(max-width: 446px) and (orientation: portrait) {
+		width: auto;
+		border-radius: 0;
+		margin: 0.5rem 0 0 0;
+		.window {
+			width: 100%;
+			height: 90%;
+		}
+	}
 `

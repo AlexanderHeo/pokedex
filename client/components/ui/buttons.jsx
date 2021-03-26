@@ -271,4 +271,7 @@ const Container = styled.div`
 		transform: scale(1.1) rotate(45deg);
 		transition: 0.4s ease forwards;
 	}
+	@media(max-width: 446px) and (orientation: portrait) {
+		display: none;
+	}
 `

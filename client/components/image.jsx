@@ -417,4 +417,7 @@ const Image = styled.div`
 		background-color: #ef0d24;
 		transform: skewY(45deg);
 	}
+	@media(max-width: 446px) and (orientation: portrait) {
+		width: auto;
+	}
 `

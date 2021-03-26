@@ -228,4 +228,8 @@ const Evo = styled.div`
 			box-shadow: inset 10px 10px 30px gold, inset -10px -10px 30px gold;
 		}
 	}
+	@media(max-width: 446px) and (orientation: portrait) {
+		width: auto;
+		margin: 0;
+	}
 `

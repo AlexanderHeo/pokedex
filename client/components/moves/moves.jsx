@@ -188,4 +188,23 @@ const MovesContainer = styled.div`
 			pointer-events: none;
 		}
 	}
+	@media(max-width: 446px) and (orientation: portrait) {
+		width: auto;
+		margin: 0.5rem 0 1rem 0;
+		.windowContainer {
+			width: 87%;
+			.window {
+				width: 95%;
+				.moveContainer {
+					width: 43%;
+				}
+				.statContainer {
+					width: 58%;
+				}
+			}
+		}
+		.buttonContainer {
+			width: 12%;
+		}
+	}
 `

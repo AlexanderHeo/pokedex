@@ -29,4 +29,7 @@ const Buttons = styled.div`
 		border-radius: 0.5rem;
 		background-color: dodgerblue;
 	}
+	@media(max-width: 446px) and (orientation: portrait) {
+		display: none;
+	}
 `

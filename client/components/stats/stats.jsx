@@ -131,4 +131,11 @@ const Stats = styled.div`
 			}
 		}
 	}
+	@media(max-width: 446px) and (orientation: portrait) {
+		width: auto;
+		margin: 0;
+		.type {
+			transform: scale(0.7);
+		}
+	}
 `
