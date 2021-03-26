@@ -38,6 +38,7 @@ const IM = styled.div`
 	left: 0;
 	background-color: lightgreen;
 	border-radius: inherit;
+	box-shadow: inset 2px 2px 4px darkgreen, inset -2px -2px 4px limegreen;
 	.inputIM {
 		width: 30px;
 		font-family: 'VT323', monospace;
