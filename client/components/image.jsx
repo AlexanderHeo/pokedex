@@ -81,7 +81,11 @@ class ImageComponent extends Component {
 	  }
 	  return (
 	    <Image>
-	      <div className="frame">
+	      <div className={
+	        this.state.shiny
+	          ? 'frame shiny'
+	          : 'frame'
+	      }>
 	        {
 	          ready && <div className="specialBadgeContainer">
 	            {
@@ -132,6 +136,15 @@ class ImageComponent extends Component {
 	          </div>
 	        }
 	        <img src={src} className={pokeClass} />
+	        <div className="shinyButtonContainer">
+	          <button className={
+	            this.state.shiny
+	              ? 'shinyButton shiny'
+	              : 'shinyButton'
+	          } onClick={this.handleClick} name="shiny">
+							S
+	          </button>
+	        </div>
 	        <div className="turnButtonContainer">
 	          <button className="turnButton" onClick={this.handleClick} name="turn">
 	            <span className="iconify" data-icon="ic:round-change-circle" data-inline="false" />
@@ -142,14 +155,14 @@ class ImageComponent extends Component {
 
 	        <div className="yellowButton" />
 
-	        <div className="shinyButtonContainer">
+	        {/* <div className="shinyButtonContainer">
 	          <button className={
 	            this.state.shiny
 	              ? 'shinyButton shiny'
 	              : 'shinyButton'} onClick={this.handleClick} name="shiny">
 							Shiny
 	          </button>
-	        </div>
+	        </div> */}
 
 	        <div className="grillContainer">
 	          <div className="grillLine"/>
@@ -273,20 +286,36 @@ const Image = styled.div`
 			opacity: 0.4;
 			transform: scale(0.5);
 		}
+		.shinyButtonContainer {
+			position: absolute;
+			right: 0.5rem;
+			bottom: 55%;
+			z-index: 2;
+		}
 		.turnButtonContainer {
 			position:absolute;
-			bottom: 0.5rem;
 			right: 0.5rem;
+			bottom: 35%;
+			z-index: 2;
 		}
 		.turnButton {
 			display: flex;
 			background-color: white;
-			border: none;
+			border-radius: 25px;
 			outline: none;
+			margin: 0;
 			padding: 0;
 			cursor: pointer;
 		}
-		.turnButton:hover {
+		.shinyButton {
+			width: 30px;
+			height: 30px;
+			border-radius: 25px;
+			margin-bottom: 0.3rem;
+			cursor: pointer;
+		}
+		.turnButton:hover,
+		.shinyButton:hover {
 			transform: scale(1.4);
 			transition: 0.3s ease;
 		}
@@ -296,7 +325,7 @@ const Image = styled.div`
 			pointer-events: none;
 		}
 	}
-	.frame::before,
+	/* .frame::before,
 	.frame::after {
 		width: 0.5rem;
 		height: 0.5rem;
@@ -311,7 +340,29 @@ const Image = styled.div`
 	}
 	.frame::after {
 		right: 44%;
+	} */
+	.frame:hover {
+		overflow: initial;
+		img {
+			background: rgb(165,201,253);
+			background: linear-gradient(30deg, rgba(165,201,253,1) 21%, rgba(189,215,238,1) 27%, rgba(165,201,253,1) 33%, rgba(165,201,253,1) 66%, rgba(189,215,238,1) 72%, rgba(165,201,253,1) 78%);
+			border: 5px double black;
+			border-radius: 44px;
+			z-index: 1;
+			transform: scale(1.15);
+		}
+		.shiny {
+			background: rgb(222,222,222);
+			background: linear-gradient(45deg, rgba(222,222,222,1) 21%, rgba(255,255,255,1) 27%, rgba(222,222,222,1) 33%, rgba(222,222,222,1) 66%, rgba(255,255,255,1) 72%, rgba(222,222,222,1) 78%);
+		}
 	}
+	.frame:hover.shiny {
+		img {
+			background: rgb(222,222,222);
+			background: linear-gradient(45deg, rgba(222,222,222,1) 21%, rgba(255,255,255,1) 27%, rgba(222,222,222,1) 33%, rgba(222,222,222,1) 66%, rgba(255,255,255,1) 72%, rgba(222,222,222,1) 78%);
+		}
+	}
+
 	.imageButtons {
 		width: 80%;
 		height: 30%;
@@ -333,6 +384,7 @@ const Image = styled.div`
 		.shinyButtonContainer {
 			width: 5rem;
 			height: 3rem;
+			position: relative;
 			border: 3px solid black;
 			border-radius: 25px;
 			margin: 0 1rem 0 0;
@@ -350,10 +402,7 @@ const Image = styled.div`
 			transform: scale(1.2);
 			transition-duration: 0.3s ease;
 		}
-		.shiny {
-			background: rgb(255,215,0);
-			background: linear-gradient(45deg, rgba(255,215,0,1) 54%, rgba(255,255,255,1) 64%, rgba(255,215,0,1) 73%);
-		}
+
 		.grillContainer {
 			width: 4rem;
 			height: 2.7rem;
