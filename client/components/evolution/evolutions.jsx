@@ -214,6 +214,10 @@ const Evo = styled.div`
 				}
 			}
 		}
+		.evoFrame:hover img {
+			transform: scale(1.25);
+			transition: transform 0.3s ease;
+		}
 		.name {
 			pointer-events: none;
 		}
