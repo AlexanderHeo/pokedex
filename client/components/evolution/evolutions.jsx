@@ -54,11 +54,15 @@ class Evolution extends Component {
 	  let frame3 = 'evoFrame'
 	  if (setOneReady) {
 	    const n = setOne[0].name
+	    frame1 = 'evoFrame grow'
+	    if (n === current) frame1 = 'evoFrame grow highlight'
 	    img1 = setOne[0].sprite
 	    name1 = `${n.charAt(0).toUpperCase()}${n.slice(1)}`
 	  }
 	  if (setTwoReady) {
 	    const n = setTwo.data[setTwoIndex].name
+	    frame2 = 'evoFrame grow'
+	    if (n === current) frame2 = 'evoFrame grow highlight'
 	    img2 = setTwo.data[setTwoIndex].sprites.front_default
 	    name2 = `${n.charAt(0).toUpperCase()}${n.slice(1)}`
 	    if (setTwo.data.length > 1) {
@@ -67,15 +71,14 @@ class Evolution extends Component {
 	  }
 	  if (setThreeReady) {
 	    const n = setThree.data[setThreeIndex].name
+	    frame3 = 'evoFrame grow'
+	    if (n === current) frame3 = 'evoFrame grow highlight'
 	    img3 = setThree.data[setThreeIndex].sprites.front_default
 	    name3 = `${n.charAt(0).toUpperCase()}${n.slice(1)}`
 	    if (setThree.data.length > 1) {
 	      multi3 = true
 	    }
 	  }
-	  if (name1 === current) frame1 = 'evoFrame highlight'
-	  if (name2 === current) frame2 = 'evoFrame highlight'
-	  if (name3 === current) frame3 = 'evoFrame highlight'
 	  return (
 	    <Evo>
 	      <div className='evoSection'>
@@ -214,7 +217,7 @@ const Evo = styled.div`
 				}
 			}
 		}
-		.evoFrame:hover img {
+		.evoFrame:hover.grow img {
 			transform: scale(1.25);
 			transition: transform 0.3s ease;
 		}
