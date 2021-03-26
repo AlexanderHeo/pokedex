@@ -19,8 +19,12 @@ class Buttons extends Component {
 	  }
 	}
 
+	exitError = () => {
+	  this.props.resetError()
+	}
+
 	render() {
-	  const { name, id, handleDpad, ready } = this.props
+	  const { name, id, handleDpad, ready, errorMessage } = this.props
 	  const { inputModalOpen } = this.state
 	  const nameDisp = `${name.charAt(0).toUpperCase()}${name.slice(1)}`
 	  return (
@@ -32,6 +36,12 @@ class Buttons extends Component {
 	          <div className='line'></div>
 	        </div>
 	        <div className='window'>
+	          {
+	            errorMessage && <div className="em">
+	              <div className='errorMessage'><span className='emSpan'>{errorMessage}</span></div>
+	              <button className='buttonEM' onClick={this.exitError}>X</button>
+	            </div>
+	          }
 	          {
 	            inputModalOpen && <InputModal
 	              handleClick={this.handleClick}
@@ -111,6 +121,42 @@ const Container = styled.div`
 			border: 1px solid darkgreen;
 			border-radius: 0.2rem;
 			box-shadow: inset 2px 2px 4px darkgreen, inset -2px -2px 4px limegreen;
+			.em {
+				display: flex;
+			}
+			.errorMessage {
+				width: 343px;
+				height: 96px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				position: absolute;
+				top: -40px;
+				left: -103px;
+				background-color: #ef0d24;
+				color: honeydew;
+				font-size: 1.4rem;
+				z-index: 20;
+				border-radius: 0.3rem;
+			}
+			.buttonEM {
+				width: 22px;
+				height: 22px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background-color: #ef0d24;
+				transform: translate(170px, -20px);
+				z-index: 21;
+				border-radius: 25px;
+				border-color: white;
+			}
+			.emSpan {
+				width: 200px;
+				height: 90px;
+				display: flex;
+				align-items: center;
+			}
 			.no {
 				display: flex;
 				.pokenum {

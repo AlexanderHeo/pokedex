@@ -61,7 +61,8 @@ export default class App extends React.Component {
     setThree: [],
     setThreeReady: false,
     current: POKE_NAME,
-    ready: false
+    ready: false,
+    errorMessage: ''
   }
 
   componentDidMount = () => {
@@ -252,6 +253,20 @@ export default class App extends React.Component {
 	  }
 	}
 
+	handleInputChange = id => {
+	  if (isNaN(id)) {
+	    this.setState({ errorMessage: 'Pokédex Index must be a number.' })
+	  } else if (id < 1 || id > 898) {
+	    this.setState({ errorMessage: 'Pokédex Index must be between 1 and 898.' })
+	  }	else {
+	    this.setState({ pokeIndex: id })
+	  }
+	}
+
+	resetError = () => {
+	  this.setState({ errorMessage: '' })
+	}
+
 	resetState = () => {
 	  this.setState({
 	    pokeIndex: this.state.pokeIndex,
@@ -311,7 +326,8 @@ export default class App extends React.Component {
 	    setOne, setOneReady,
 	    setTwo, setTwoReady,
 	    setThree, setThreeReady,
-	    current, ready
+	    current, ready,
+	    errorMessage
 	  } = this.state
 	  const badge = {
 	    isBaby: pokeSpecies.is_baby,
@@ -331,7 +347,15 @@ export default class App extends React.Component {
 	              generation={pokeSpecies.generation.name}
 	              ready={pokeSpeciesReady}
 	            />
-	            <Buttons name={pokeData.name} id={pokeData.id} handleDpad={this.handleDpad} ready={ready} />
+	            <Buttons
+	              name={pokeData.name}
+	              id={pokeData.id}
+	              handleDpad={this.handleDpad}
+	              ready={ready}
+	              errorMessage={errorMessage}
+	              resetError={this.resetError}
+	              handleInputChange={this.handleInputChange}
+	            />
 	          </div>
 	          <div className="middleHinge">
 	            <div className="hingeShort top"></div>
@@ -361,7 +385,7 @@ export default class App extends React.Component {
 	      <KeyboardEventHandler
 	        handleKeys={['up', 'down', 'left', 'right', 's']}
 	        onKeyEvent={(key, e) => this.handleKeyDown(key, e)}
-	        disabled={!ready}
+	        iDisabled={!ready}
 	      />
 	    </Main>
 	  )
