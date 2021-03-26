@@ -1,33 +1,62 @@
-import React from 'react'
+import React, { Component } from 'react'
 import styled from 'styled-components'
+import InputModal from './inputModal'
 
-const Buttons = ({ name, id, handleDpad, ready }) => {
-  name = `${name.charAt(0).toUpperCase()}${name.slice(1)}`
-  return (
-    <Container>
-      <div className='button'></div>
-      <div className="middleSection">
-        <div className='lines'>
-          <div className='line'></div>
-          <div className='line'></div>
-        </div>
-        <div className='window'>
-          <div className="pokename">{name}</div>
-          <div className="pokenum">{id}</div>
-        </div>
-      </div>
-      <div className='dpad'>
-        <div className="sectionD">
-          <button className="direction upD" onClick={handleDpad} name="up" disabled={!ready}><span className="iconify" data-icon="bi:caret-up" data-inline="false" transform="rotate(-45)"></span></button>
-          <button className="direction rightD" onClick={handleDpad} name="right" disabled={!ready}><span className="iconify" data-icon="bi:caret-right" data-inline="false"></span></button>
-        </div>
-        <div className="sectionD">
-          <button className="direction leftD" onClick={handleDpad} name="left" disabled={!ready}><span className="iconify" data-icon="bi:caret-left" data-inline="false"></span></button>
-          <button className="direction downD" onClick={handleDpad} name="down" disabled={!ready}><span className="iconify" data-icon="bi:caret-down" data-inline="false"></span></button>
-        </div>
-      </div>
-    </Container>
-  )
+class Buttons extends Component {
+	state = {
+	  inputModalOpen: false
+	}
+
+	handleClick = (e, id) => {
+	  e.preventDefault()
+	  const name = e.target.name
+	  if (name === 'x') {
+	    this.setState({ inputModalOpen: !this.state.inputModalOpen })
+	  }
+	  if (name === 'ok') {
+	    this.props.handleInputChange(id)
+	    this.setState({ inputModalOpen: !this.state.inputModalOpen })
+	  }
+	}
+
+	render() {
+	  const { name, id, handleDpad, ready } = this.props
+	  const { inputModalOpen } = this.state
+	  const nameDisp = `${name.charAt(0).toUpperCase()}${name.slice(1)}`
+	  return (
+	    <Container>
+	      <div className='button'></div>
+	      <div className="middleSection">
+	        <div className='lines'>
+	          <div className='line'></div>
+	          <div className='line'></div>
+	        </div>
+	        <div className='window'>
+	          {
+	            inputModalOpen && <InputModal
+	              handleClick={this.handleClick}
+	              id={id}
+	            />
+	          }
+	          <div className="pokename">{nameDisp}</div>
+	          <div className="no">
+	            <button className="pokenum" onClick={this.handleClick} name="x">no. {id}</button>
+	          </div>
+	        </div>
+	      </div>
+	      <div className='dpad'>
+	        <div className="sectionD">
+	          <button className="direction upD" onClick={handleDpad} name="up" disabled={!ready}><span className="iconify" data-icon="bi:caret-up" data-inline="false" transform="rotate(-45)"></span></button>
+	          <button className="direction rightD" onClick={handleDpad} name="right" disabled={!ready}><span className="iconify" data-icon="bi:caret-right" data-inline="false"></span></button>
+	        </div>
+	        <div className="sectionD">
+	          <button className="direction leftD" onClick={handleDpad} name="left" disabled={!ready}><span className="iconify" data-icon="bi:caret-left" data-inline="false"></span></button>
+	          <button className="direction downD" onClick={handleDpad} name="down" disabled={!ready}><span className="iconify" data-icon="bi:caret-down" data-inline="false"></span></button>
+	        </div>
+	      </div>
+	    </Container>
+	  )
+	}
 }
 
 export default Buttons
@@ -77,10 +106,25 @@ const Container = styled.div`
 			flex-flow: column;
 			justify-content: center;
 			align-items: center;
+			position: relative;
 			background-color: lightgreen;
 			border: 1px solid darkgreen;
 			border-radius: 0.2rem;
 			box-shadow: inset 2px 2px 4px darkgreen, inset -2px -2px 4px limegreen;
+			.no {
+				display: flex;
+				.pokenum {
+					width: 70px;
+					font-family: 'VT323', monospace;
+					font-size: 1rem;
+					text-align: center;
+					color: lightgreen;
+					background-color: green;
+					border-radius: 0.2rem;
+					padding: 0;
+					cursor: text;
+				}
+			}
 		}
 	}
 	.dpad {
