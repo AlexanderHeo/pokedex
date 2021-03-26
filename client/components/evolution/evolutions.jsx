@@ -53,19 +53,22 @@ class Evolution extends Component {
 	  let frame2 = 'evoFrame'
 	  let frame3 = 'evoFrame'
 	  if (setOneReady) {
+	    const n = setOne[0].name
 	    img1 = setOne[0].sprite
-	    name1 = setOne[0].name
+	    name1 = `${n.charAt(0).toUpperCase()}${n.slice(1)}`
 	  }
 	  if (setTwoReady) {
+	    const n = setTwo.data[setTwoIndex].name
 	    img2 = setTwo.data[setTwoIndex].sprites.front_default
-	    name2 = setTwo.data[setTwoIndex].name
+	    name2 = `${n.charAt(0).toUpperCase()}${n.slice(1)}`
 	    if (setTwo.data.length > 1) {
 	      multi2 = true
 	    }
 	  }
 	  if (setThreeReady) {
+	    const n = setThree.data[setThreeIndex].name
 	    img3 = setThree.data[setThreeIndex].sprites.front_default
-	    name3 = setThree.data[setThreeIndex].name
+	    name3 = `${n.charAt(0).toUpperCase()}${n.slice(1)}`
 	    if (setThree.data.length > 1) {
 	      multi3 = true
 	    }

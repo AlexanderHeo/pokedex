@@ -11,7 +11,7 @@ import Buttons from './ui/buttons';
 import TopFrame from './ui/topFrame';
 
 const POKEAPI_ROOT_URL = 'https://pokeapi.co/api/v2/pokemon/'
-const POKE_INDEX = 60
+const POKE_INDEX = 1
 const POKE_NAME = 'Pokémon'
 
 export default class App extends React.Component {
